@@ -16,16 +16,19 @@ const TempoProfileSelector = ({ value, onChange }: TempoProfileSelectorProps) =>
       id: "realistic",
       name: t('onboarding.tempo_realistic'),
       description: t('onboarding.tempo_realistic_desc'),
+      available: true,
     },
     {
       id: "fast",
       name: t('onboarding.tempo_fast'),
       description: t('onboarding.tempo_fast_desc'),
+      available: true,
     },
     {
       id: "custom",
       name: t('onboarding.tempo_custom'),
-      description: t('onboarding.tempo_custom_desc'),
+      description: t('onboarding.mode_coming_soon'),
+      available: false,
     },
   ];
   
@@ -35,27 +38,45 @@ const TempoProfileSelector = ({ value, onChange }: TempoProfileSelectorProps) =>
       <RadioGroup value={value} onValueChange={onChange}>
         <div className="grid gap-3">
           {profiles.map((profile) => (
-            <label key={profile.id} htmlFor={profile.id} className="cursor-pointer">
-              <Card
-                className={`p-4 transition-colors ${
-                  value === profile.id
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <RadioGroupItem value={profile.id} id={profile.id} />
-                  <div className="flex-1">
-                    <div className="font-medium">
-                      {profile.name}
+            <div key={profile.id}>
+              {profile.available ? (
+                <label htmlFor={profile.id} className="cursor-pointer">
+                  <Card
+                    className={`p-4 transition-colors ${
+                      value === profile.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <RadioGroupItem value={profile.id} id={profile.id} />
+                      <div className="flex-1">
+                        <div className="font-medium">
+                          {profile.name}
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {profile.description}
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {profile.description}
-                    </p>
+                  </Card>
+                </label>
+              ) : (
+                <Card className="p-4 bg-muted/30 opacity-60 cursor-not-allowed">
+                  <div className="flex items-start gap-3">
+                    <div className="w-4 h-4" />
+                    <div className="flex-1">
+                      <div className="font-medium">
+                        {profile.name}
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {profile.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            </label>
+                </Card>
+              )}
+            </div>
           ))}
         </div>
       </RadioGroup>
