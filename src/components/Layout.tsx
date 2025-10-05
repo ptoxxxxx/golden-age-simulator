@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Globe, LogOut } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { toast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import logo from "@/assets/logo.svg";
 
 interface LayoutProps {
@@ -14,15 +15,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [language, setLanguage] = useState<"en" | "pl">("en");
+  const { i18n, t } = useTranslation('common');
   const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("language");
-    if (saved === "pl" || saved === "en") {
-      setLanguage(saved);
-    }
-  }, []);
 
   useEffect(() => {
     // Set up auth state listener
@@ -41,9 +35,8 @@ const Layout = ({ children }: LayoutProps) => {
   }, []);
 
   const toggleLanguage = () => {
-    const newLang = language === "en" ? "pl" : "en";
-    setLanguage(newLang);
-    localStorage.setItem("language", newLang);
+    const newLang = i18n.language === "en" ? "pl" : "en";
+    i18n.changeLanguage(newLang);
   };
 
   const handleLogout = async () => {
@@ -76,9 +69,10 @@ const Layout = ({ children }: LayoutProps) => {
               size="sm"
               onClick={toggleLanguage}
               className="gap-2"
+              aria-label="Toggle language"
             >
               <Globe className="h-4 w-4" />
-              {language.toUpperCase()}
+              {i18n.language.toUpperCase()}
             </Button>
             {user && !isAuthPage && (
               <Button
@@ -86,9 +80,10 @@ const Layout = ({ children }: LayoutProps) => {
                 size="sm"
                 onClick={handleLogout}
                 className="gap-2"
+                aria-label="Logout"
               >
                 <LogOut className="h-4 w-4" />
-                Logout
+                {t('auth.signOut')}
               </Button>
             )}
           </div>
