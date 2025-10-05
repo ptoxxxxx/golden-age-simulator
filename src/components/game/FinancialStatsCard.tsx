@@ -119,29 +119,31 @@ const FinancialStatsCard = ({
           </div>
         </div>
 
-        {/* Retirement Planning Section - Prominent */}
-        <div className="p-3 rounded-lg bg-primary/10 space-y-3 mt-3">
-          <div className="flex flex-col items-center text-center space-y-1">
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <Calendar className="h-3.5 w-3.5" />
-              <span className="text-xs">{t('game.planned_retirement_age')}</span>
+        {/* Retirement Planning Section - Horizontal */}
+        <div className="p-3 rounded-lg bg-primary/10 mt-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col items-center text-center space-y-1">
+              <Input
+                type="number"
+                value={retirementAge}
+                onChange={handleRetirementAgeChange}
+                min={MIN_RETIREMENT_AGE}
+                max={MAX_RETIREMENT_AGE}
+                className="w-20 h-12 text-center text-3xl font-bold border-2"
+              />
+              <div className="flex items-center gap-1 text-muted-foreground">
+                <Calendar className="h-3 w-3" />
+                <span className="text-xs">{t('game.planned_retirement_age')}</span>
+              </div>
             </div>
-            <Input
-              type="number"
-              value={retirementAge}
-              onChange={handleRetirementAgeChange}
-              min={MIN_RETIREMENT_AGE}
-              max={MAX_RETIREMENT_AGE}
-              className="w-24 h-12 text-center text-3xl font-bold border-2"
-            />
-          </div>
 
-          <div className="flex flex-col items-center text-center space-y-1 pt-2 border-t">
-            <div className="flex items-center gap-1.5 text-primary">
-              <Shield className="h-4 w-4" />
-              <span className="text-xs font-semibold">{t('game.estimated_pension')}</span>
+            <div className="flex flex-col items-center text-center space-y-1">
+              <span className="text-3xl font-bold text-primary">{formatCurrency(estimated_pension)}</span>
+              <div className="flex items-center gap-1 text-primary">
+                <Shield className="h-3 w-3" />
+                <span className="text-xs font-semibold">{t('game.estimated_pension')}</span>
+              </div>
             </div>
-            <span className="text-2xl font-bold text-primary">{formatCurrency(estimated_pension)}</span>
           </div>
         </div>
       </CardContent>
