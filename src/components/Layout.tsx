@@ -6,7 +6,6 @@ import { Globe, LogOut } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { toast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-import logo from "@/assets/logo.svg";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -62,7 +61,10 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <img src={logo} alt="Golden Age" className="h-10" />
+          <div className="flex flex-col">
+            <h1 className="text-xl font-bold text-foreground">Golden Age Simulator</h1>
+            <p className="text-xs font-light text-muted-foreground">Your Race to a Better Tomorrow</p>
+          </div>
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
