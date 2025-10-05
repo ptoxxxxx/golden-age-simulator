@@ -4,24 +4,24 @@
 
 #### Repozytorium, środowisko, stack
 - [ ] Utwórz repozytorium na GitHub i wrzuć README z instrukcją .env i seed
-- [ ] Skonfiguruj projekt Next.js 14 (App Router) + React 18 + TypeScript
-- [ ] Dodaj Tailwind CSS i shadcn/ui (komponenty)
+- [x] Skonfiguruj projekt Next.js 14 (App Router) + React 18 + TypeScript (using Vite+React)
+- [x] Dodaj Tailwind CSS i shadcn/ui (komponenty)
 - [ ] Skonfiguruj i18next (EN domyślny, PL placeholder)
 - [ ] Dodaj pliki en/common.json i pl/common.json (PL placeholder)
-- [ ] Skonfiguruj env: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
-- [ ] Zainicjalizuj Supabase client (client/server)
-- [ ] Skonfiguruj Recharts lub odpowiednik z Lovable
+- [x] Skonfiguruj env: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
+- [x] Zainicjalizuj Supabase client (client/server)
+- [x] Skonfiguruj Recharts lub odpowiednik z Lovable
 
 #### Supabase: baza, storage, seed
-- [ ] Utwórz tabele SQL i polityki RLS w Supabase (users, games, player_states, scenarios, scenario_options, player_choices, user_avatars)
-- [ ] Utwórz bucket avatars w Supabase Storage (publiczny, 5 MB, jpg/png/webp)
+- [x] Utwórz tabele SQL i polityki RLS w Supabase (users, games, player_states, scenarios, scenario_options, player_choices, user_avatars)
+- [x] Utwórz bucket avatars w Supabase Storage (publiczny, 5 MB, jpg/png/webp)
 - [ ] Przygotuj i wrzuć seed 24 scenariuszy (EN, PL placeholdery później)
-- [ ] Sprawdź RLS dla wszystkich tabel user-data
+- [x] Sprawdź RLS dla wszystkich tabel user-data
 
 #### Routing i strony
-- [ ] Skonfiguruj routing: /, /auth/sign-in, /auth/sign-up, /game, /dashboard, /summary
-- [ ] Utwórz layout z topbarem i przełącznikiem języka (persist w localStorage)
-- [ ] Dodaj placeholdery stron (każda ścieżka renderuje prosty tekst)
+- [x] Skonfiguruj routing: /, /auth/sign-in, /auth/sign-up, /game, /dashboard, /summary
+- [x] Utwórz layout z topbarem i przełącznikiem języka (persist w localStorage)
+- [x] Dodaj placeholdery stron (każda ścieżka renderuje prosty tekst)
 
 #### Auth i onboarding
 - [ ] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja)
