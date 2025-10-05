@@ -14,7 +14,293 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      games: {
+        Row: {
+          created_at: string | null
+          finished_at: string | null
+          id: string
+          mode: string | null
+          status: string | null
+          tempo_custom_config: Json | null
+          tempo_profile: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          finished_at?: string | null
+          id?: string
+          mode?: string | null
+          status?: string | null
+          tempo_custom_config?: Json | null
+          tempo_profile?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          finished_at?: string | null
+          id?: string
+          mode?: string | null
+          status?: string | null
+          tempo_custom_config?: Json | null
+          tempo_profile?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      player_choices: {
+        Row: {
+          created_at: string | null
+          effects: Json | null
+          game_id: string
+          id: number
+          option_id: number | null
+          scenario_id: number | null
+          turn_number: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          effects?: Json | null
+          game_id: string
+          id?: number
+          option_id?: number | null
+          scenario_id?: number | null
+          turn_number: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          effects?: Json | null
+          game_id?: string
+          id?: number
+          option_id?: number | null
+          scenario_id?: number | null
+          turn_number?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_choices_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_choices_option_id_fkey"
+            columns: ["option_id"]
+            isOneToOne: false
+            referencedRelation: "scenario_options"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "player_choices_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      player_states: {
+        Row: {
+          age: number
+          created_at: string | null
+          education: string | null
+          game_id: string
+          happiness: number | null
+          health: number | null
+          id: number
+          insurance_status: string | null
+          private_investments: number | null
+          relationships: number | null
+          risk_level: number | null
+          saldo: number | null
+          savings: number | null
+          turn_number: number
+          zus_account: number | null
+          zus_contributions: number | null
+          zus_type: string | null
+        }
+        Insert: {
+          age: number
+          created_at?: string | null
+          education?: string | null
+          game_id: string
+          happiness?: number | null
+          health?: number | null
+          id?: number
+          insurance_status?: string | null
+          private_investments?: number | null
+          relationships?: number | null
+          risk_level?: number | null
+          saldo?: number | null
+          savings?: number | null
+          turn_number: number
+          zus_account?: number | null
+          zus_contributions?: number | null
+          zus_type?: string | null
+        }
+        Update: {
+          age?: number
+          created_at?: string | null
+          education?: string | null
+          game_id?: string
+          happiness?: number | null
+          health?: number | null
+          id?: number
+          insurance_status?: string | null
+          private_investments?: number | null
+          relationships?: number | null
+          risk_level?: number | null
+          saldo?: number | null
+          savings?: number | null
+          turn_number?: number
+          zus_account?: number | null
+          zus_contributions?: number | null
+          zus_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "player_states_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scenario_options: {
+        Row: {
+          ai_coach_comment: string | null
+          effects: Json | null
+          id: number
+          next_scenario_id: number | null
+          option_text: string
+          scenario_id: number
+        }
+        Insert: {
+          ai_coach_comment?: string | null
+          effects?: Json | null
+          id?: number
+          next_scenario_id?: number | null
+          option_text: string
+          scenario_id: number
+        }
+        Update: {
+          ai_coach_comment?: string | null
+          effects?: Json | null
+          id?: number
+          next_scenario_id?: number | null
+          option_text?: string
+          scenario_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scenario_options_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scenarios: {
+        Row: {
+          area: string | null
+          created_at: string | null
+          id: number
+          max_age: number | null
+          min_age: number | null
+          min_education: string | null
+          min_health: number | null
+          mode: string | null
+          other_conditions: Json | null
+          story_prompt: string
+          tags: string[] | null
+        }
+        Insert: {
+          area?: string | null
+          created_at?: string | null
+          id?: number
+          max_age?: number | null
+          min_age?: number | null
+          min_education?: string | null
+          min_health?: number | null
+          mode?: string | null
+          other_conditions?: Json | null
+          story_prompt: string
+          tags?: string[] | null
+        }
+        Update: {
+          area?: string | null
+          created_at?: string | null
+          id?: number
+          max_age?: number | null
+          min_age?: number | null
+          min_education?: string | null
+          min_health?: number | null
+          mode?: string | null
+          other_conditions?: Json | null
+          story_prompt?: string
+          tags?: string[] | null
+        }
+        Relationships: []
+      }
+      user_avatars: {
+        Row: {
+          age_group: number | null
+          avatar_url: string | null
+          background: string | null
+          created_at: string | null
+          extra_params: Json | null
+          id: number
+          mood: string | null
+          user_id: string
+        }
+        Insert: {
+          age_group?: number | null
+          avatar_url?: string | null
+          background?: string | null
+          created_at?: string | null
+          extra_params?: Json | null
+          id?: number
+          mood?: string | null
+          user_id: string
+        }
+        Update: {
+          age_group?: number | null
+          avatar_url?: string | null
+          background?: string | null
+          created_at?: string | null
+          extra_params?: Json | null
+          id?: number
+          mood?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          id: string
+          nickname: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          id: string
+          nickname?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          id?: string
+          nickname?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
