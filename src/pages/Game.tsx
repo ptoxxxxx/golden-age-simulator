@@ -310,20 +310,6 @@ const Game = () => {
   return (
     <div className="min-h-screen bg-[#F5F7FA] py-8">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex-1 mr-4">
-            <LifeProgressBar age={currentState.age} />
-          </div>
-          <Button
-            variant="outline"
-            onClick={() => navigate("/dashboard")}
-            className="gap-2"
-          >
-            <BarChart3 className="h-4 w-4" />
-            {t('dashboard.title')}
-          </Button>
-        </div>
-
         {/* Top row: Avatar, Life Stats, Financial Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <AvatarCard
@@ -346,6 +332,11 @@ const Game = () => {
             estimated_pension={currentState.estimated_pension || 0}
             onRetirementAgeChange={handleRetirementAgeChange}
           />
+        </div>
+
+        {/* Life Progress Bar */}
+        <div className="mb-6">
+          <LifeProgressBar age={currentState.age} />
         </div>
 
         {/* Middle: Scenario Card */}

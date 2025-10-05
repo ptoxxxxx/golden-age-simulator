@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Globe, LogOut } from "lucide-react";
+import { Globe, LogOut, BarChart3 } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { toast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
@@ -56,6 +56,7 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   const isAuthPage = location.pathname === "/auth";
+  const isGamePage = location.pathname === "/game";
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,6 +67,17 @@ const Layout = ({ children }: LayoutProps) => {
             <p className="text-xs font-light text-muted-foreground">Your Race to a Better Tomorrow</p>
           </div>
           <div className="flex items-center gap-2">
+            {isGamePage && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/dashboard")}
+                className="gap-2"
+                aria-label="Dashboard"
+              >
+                <BarChart3 className="h-4 w-4" />
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"
