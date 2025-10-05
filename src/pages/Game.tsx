@@ -9,6 +9,7 @@ import LifeStatsCard from "@/components/game/LifeStatsCard";
 import FinancialStatsCard from "@/components/game/FinancialStatsCard";
 import ScenarioCard from "@/components/game/ScenarioCard";
 import CoachComment from "@/components/game/CoachComment";
+import LifeProgressBar from "@/components/game/LifeProgressBar";
 import { applyEffects, calculateAgeIncrement, isGameOver } from "@/lib/gameUtils";
 import { ArrowRight, BarChart3 } from "lucide-react";
 
@@ -310,7 +311,9 @@ const Game = () => {
     <div className="min-h-screen bg-[#F5F7FA] py-8">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-[#283754]">{t('game.title')}</h1>
+          <div className="flex-1 mr-4">
+            <LifeProgressBar age={currentState.age} />
+          </div>
           <Button
             variant="outline"
             onClick={() => navigate("/dashboard")}
