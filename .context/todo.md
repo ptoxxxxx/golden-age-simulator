@@ -23,10 +23,13 @@
 - [x] Utwórz layout z topbarem i przełącznikiem języka (persist w localStorage)
 - [x] Dodaj placeholdery stron (każda ścieżka renderuje prosty tekst)
 
-#### Auth i onboarding
-- [ ] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja) - IN PROGRESS
+#### Auth i onboarding ✅
+- [x] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja)
 - [x] Onboarding (/) – formularz: imię postaci (opcjonalne), avatar upload (walidacja, upload do Storage), wybór profilu tempa gry (Realistic/Fast/Custom), start game (utwórz rekord games, player_states turn 0)
-- [ ] Walidacja Zod dla wszystkich pól formularzy
+- [x] Walidacja Zod dla wszystkich pól formularzy
+- [x] Redirect unauthenticated users to /auth
+- [x] Protected routes for game, dashboard, summary
+- [x] Logout functionality
 
 #### Pętla gry (core gameplay)
 - [ ] Pobierz aktualny player_state (ostatni turn)
