@@ -57,14 +57,21 @@ const Index = () => {
         return;
       }
 
+      // Get existing profile to avoid overwriting data
+      const { data: existingProfile } = await supabase
+        .from("users")
+        .select("avatar_url, nickname")
+        .eq("id", user.id)
+        .maybeSingle();
+
       // Upload avatar if provided
       let avatarUrl: string | null = null;
       if (avatar) {
         const filename = sanitizeFilename(user.id, avatar.name);
-        const filePath = `${user.id}/${filename}`; // Add user folder structure
+        const filePath = `${user.id}/${filename}`;
         const { error: uploadError } = await supabase.storage
           .from("avatars")
-          .upload(filePath, avatar);
+          .upload(filePath, avatar, { upsert: true });
 
         if (uploadError) throw uploadError;
 
@@ -73,15 +80,36 @@ const Index = () => {
           .getPublicUrl(filePath);
         
         avatarUrl = publicUrl;
+
+        // Generate avatar variations in background
+        toast({
+          title: t('onboarding.generating_avatars'),
+          description: t('onboarding.avatars_processing'),
+        });
+
+        // Call edge function to generate variations (don't wait for it)
+        supabase.functions.invoke('generate-avatar-variations', {
+          body: {
+            avatarUrl: publicUrl,
+            userAge: INITIAL_PLAYER_STATE.age,
+            userId: user.id
+          }
+        }).then(({ data, error }) => {
+          if (error) {
+            console.error('Error generating avatar variations:', error);
+          } else {
+            console.log('Generated avatar variations:', data);
+          }
+        });
       }
 
-      // Create or update user profile
+      // Create or update user profile (preserve existing data)
       const { error: profileError } = await supabase
         .from("users")
         .upsert({
           id: user.id,
-          nickname: nickname || null,
-          avatar_url: avatarUrl,
+          nickname: nickname || existingProfile?.nickname || null,
+          avatar_url: avatarUrl || existingProfile?.avatar_url || null,
         });
 
       if (profileError) throw profileError;

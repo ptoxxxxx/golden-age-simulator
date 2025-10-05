@@ -82,7 +82,9 @@
     "invalid_file_type": "Nieprawidłowy typ pliku",
     "upload_image_type": "Prześlij obraz JPG, PNG lub WebP",
     "file_too_large": "Plik za duży",
-    "max_file_size": "Obraz musi być mniejszy niż 5MB"
+    "max_file_size": "Obraz musi być mniejszy niż 5MB",
+    "generating_avatars": "Generowanie wariantów awatara",
+    "avatars_processing": "Tworzymy twoje awatary dla różnych etapów życia. To zajmie chwilę..."
   },
   "game": {
     "turn": "Tura",

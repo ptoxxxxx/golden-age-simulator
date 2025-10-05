@@ -1,1 +1,4 @@
 project_id = "lwnwrhopvjysluqtvdgk"
+
+[functions.generate-avatar-variations]
+verify_jwt = false

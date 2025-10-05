@@ -82,7 +82,9 @@
     "invalid_file_type": "Invalid File Type",
     "upload_image_type": "Please upload a JPG, PNG, or WebP image",
     "file_too_large": "File Too Large",
-    "max_file_size": "Image must be less than 5MB"
+    "max_file_size": "Image must be less than 5MB",
+    "generating_avatars": "Generating Avatar Variations",
+    "avatars_processing": "We're creating your avatars for different life stages. This will take a moment..."
   },
   "game": {
     "turn": "Turn",
