@@ -69,7 +69,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <img src={logo} alt="Golden Age" className="h-20" />
+          <img src={logo} alt="Golden Age" className="h-15" />
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
