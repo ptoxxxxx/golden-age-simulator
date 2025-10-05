@@ -1,6 +1,10 @@
-# Architecture Decision Records (ADR)
+# ADR – Rejestr decyzji technicznych
 
-This file contains important architectural decisions made during the development of this project.
+## Wzór:
+[data] – [tytuł decyzji]
+- Decyzja:
+- Uzasadnienie:
+- Alternatywy:
+- Konsekwencje:
 
----
-
+## Rejestr:
