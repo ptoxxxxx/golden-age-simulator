@@ -15,12 +15,15 @@ const GameNew = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("settings");
+  const [activeTab, setActiveTab] = useState("mode");
 
-  // Step 1: Game settings
+  // Step 1: Game mode
+  const [gameMode, setGameMode] = useState("sandbox");
+
+  // Step 2: Game settings
   const [tempoProfile, setTempoProfile] = useState("realistic");
 
-  // Step 2: Initial state
+  // Step 3: Initial state
   const [initialState, setInitialState] = useState(INITIAL_PLAYER_STATE);
 
   useEffect(() => {
@@ -125,10 +128,43 @@ const GameNew = () => {
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="mode">{t("game_new.step_mode")}</TabsTrigger>
               <TabsTrigger value="settings">{t("game_new.step_settings")}</TabsTrigger>
               <TabsTrigger value="initial">{t("game_new.step_initial")}</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="mode" className="space-y-4">
+              <div className="space-y-4 py-4">
+                <div className="space-y-3">
+                  <Label>{t("game_new.game_mode_label")}</Label>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => setGameMode("sandbox")}
+                      className={`w-full p-4 rounded-lg border-2 text-left transition-colors ${
+                        gameMode === "sandbox"
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                    >
+                      <div className="font-semibold">{t("game_new.mode_sandbox")}</div>
+                      <div className="text-sm text-muted-foreground">{t("game_new.mode_sandbox_desc")}</div>
+                    </button>
+                    <div className="w-full p-4 rounded-lg border-2 border-border bg-muted/30 text-left opacity-60 cursor-not-allowed">
+                      <div className="font-semibold">{t("game_new.mode_challenges")}</div>
+                      <div className="text-sm text-muted-foreground">{t("game_new.mode_coming_soon")}</div>
+                    </div>
+                    <div className="w-full p-4 rounded-lg border-2 border-border bg-muted/30 text-left opacity-60 cursor-not-allowed">
+                      <div className="font-semibold">{t("game_new.mode_educational")}</div>
+                      <div className="text-sm text-muted-foreground">{t("game_new.mode_coming_soon")}</div>
+                    </div>
+                  </div>
+                </div>
+                <Button onClick={() => setActiveTab("settings")} className="w-full">
+                  {t("game_new.next_step")}
+                </Button>
+              </div>
+            </TabsContent>
 
             <TabsContent value="settings" className="space-y-4">
               <div className="space-y-4 py-4">
