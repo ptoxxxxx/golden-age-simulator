@@ -105,7 +105,11 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
           placeholder="••••••••"
           disabled={loading}
         />
-        {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+        {errors.password ? (
+          <p className="text-sm text-destructive">{errors.password}</p>
+        ) : (
+          <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+        )}
       </div>
 
       <div className="space-y-2">
