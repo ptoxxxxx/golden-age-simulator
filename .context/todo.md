@@ -15,13 +15,14 @@
 #### Supabase: baza, storage, seed
 - [x] Utwórz tabele SQL i polityki RLS w Supabase (users, games, player_states, scenarios, scenario_options, player_choices, user_avatars)
 - [x] Utwórz bucket avatars w Supabase Storage (publiczny, 5 MB, jpg/png/webp)
-- [ ] Przygotuj i wrzuć seed 24 scenariuszy (EN, PL placeholdery później)
+- [x] Przygotuj i wrzuć seed 24 scenariuszy (EN, PL placeholdery później)
 - [x] Sprawdź RLS dla wszystkich tabel user-data
 
 #### Routing i strony
 - [x] Skonfiguruj routing: /, /auth/sign-in, /auth/sign-up, /game, /dashboard, /summary
 - [x] Utwórz layout z topbarem i przełącznikiem języka (persist w localStorage)
 - [x] Dodaj placeholdery stron (każda ścieżka renderuje prosty tekst)
+- [x] Dodaj tłumaczenia PL dla wszystkich tekstów
 
 #### Auth i onboarding ✅
 - [x] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja)
@@ -44,6 +45,7 @@
 - [ ] Dashboard: wykresy (saldo, savings, private_investments, zus_account, health, happiness, relationships vs turn)
 - [ ] Timeline decyzji: scenario → chosen option → short effects
 - [ ] Summary: karty wyników, rekomendacje, przycisk Restart (nowa gra)
+- [ ] Wyświetlanie avatara gracza na ekranie gry
 
 #### UI i dostępność
 - [ ] Zastosuj kolory: tło #FFFFFF, akcent #007834, nagłówki #283754, wykres tło #F5F7FA

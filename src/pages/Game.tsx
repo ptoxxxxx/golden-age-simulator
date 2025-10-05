@@ -23,6 +23,7 @@ const Game = () => {
   const [coachComment, setCoachComment] = useState<string | null>(null);
   const [tempoProfile, setTempoProfile] = useState<string>("realistic");
   const [tempoCustomConfig, setTempoCustomConfig] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
 
   useEffect(() => {
     loadGame();
@@ -60,6 +61,17 @@ const Game = () => {
       setGameId(game.id);
       setTempoProfile(game.tempo_profile || "realistic");
       setTempoCustomConfig(game.tempo_custom_config);
+
+      // Get user profile with avatar
+      const { data: profile } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+      
+      if (profile) {
+        setUserProfile(profile);
+      }
 
       // Get latest player state
       const { data: state, error: stateError } = await supabase
@@ -280,7 +292,25 @@ const Game = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-4">
+            {userProfile && (
+              <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                <div className="flex flex-col items-center gap-4">
+                  {userProfile.avatar_url && (
+                    <img 
+                      src={userProfile.avatar_url} 
+                      alt={userProfile.nickname || t('game.player')}
+                      className="w-24 h-24 rounded-full object-cover border-4 border-[#007834]"
+                    />
+                  )}
+                  {userProfile.nickname && (
+                    <h2 className="text-xl font-semibold text-[#283754]">
+                      {userProfile.nickname}
+                    </h2>
+                  )}
+                </div>
+              </div>
+            )}
             <PlayerStats
               age={currentState.age}
               health={currentState.health}
