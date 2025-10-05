@@ -39,15 +39,16 @@ const Index = () => {
       let avatarUrl: string | null = null;
       if (avatar) {
         const filename = sanitizeFilename(user.id, avatar.name);
+        const filePath = `${user.id}/${filename}`; // Add user folder structure
         const { error: uploadError } = await supabase.storage
           .from("avatars")
-          .upload(filename, avatar);
+          .upload(filePath, avatar);
 
         if (uploadError) throw uploadError;
 
         const { data: { publicUrl } } = supabase.storage
           .from("avatars")
-          .getPublicUrl(filename);
+          .getPublicUrl(filePath);
         
         avatarUrl = publicUrl;
       }
