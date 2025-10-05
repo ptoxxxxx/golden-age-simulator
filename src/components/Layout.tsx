@@ -56,7 +56,7 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   const isAuthPage = location.pathname === "/auth";
-  const isGamePage = location.pathname === "/game";
+  const isGameOrSummaryPage = location.pathname === "/game" || location.pathname === "/summary";
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,15 +67,16 @@ const Layout = ({ children }: LayoutProps) => {
             <p className="text-xs font-light text-muted-foreground">Your Race to a Better Tomorrow</p>
           </div>
           <div className="flex items-center gap-2">
-            {isGamePage && (
+            {user && isGameOrSummaryPage && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/game-hub")}
                 className="gap-2"
-                aria-label="Dashboard"
+                aria-label="Game Hub"
               >
                 <BarChart3 className="h-4 w-4" />
+                {t("layout.game_hub")}
               </Button>
             )}
             <Button

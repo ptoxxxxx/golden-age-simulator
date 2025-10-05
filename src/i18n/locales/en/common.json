@@ -84,7 +84,17 @@
     "file_too_large": "File Too Large",
     "max_file_size": "Image must be less than 5MB",
     "generating_avatars": "Generating Avatar Variations",
-    "avatars_processing": "We're creating your avatars for different life stages. This will take a moment..."
+    "avatars_processing": "We're creating your avatars for different life stages. This will take a moment...",
+    "complete_profile": "Complete Your Profile",
+    "setup_character": "Set up your character to begin your journey",
+    "name": "Name",
+    "name_placeholder": "Enter your name",
+    "avatar": "Avatar",
+    "optional": "Optional",
+    "saving": "Saving...",
+    "continue": "Continue",
+    "profile_complete": "Profile Complete!",
+    "ready_to_play": "You're ready to start playing"
   },
   "game": {
     "turn": "Turn",
@@ -110,6 +120,9 @@
     "happiness": "Happiness",
     "relationships": "Relationships",
     "education": "Education",
+    "education_high_school": "High School",
+    "education_bachelors": "Bachelor's Degree",
+    "education_masters": "Master's Degree",
     "riskLevel": "Risk Level",
     "selectOption": "Select an option",
     "nextTurn": "Next Turn",
@@ -141,7 +154,38 @@
     "confirm_choice": "Confirm Choice",
     "advisory_title": "Decision Impact",
     "advisory_description": "This decision may have the following effects:",
-    "coach_advisor": "Coach Advisor"
+    "coach_advisor": "Coach Advisor",
+    "saldo": "Balance"
+  },
+  "game_hub": {
+    "title": "Game Hub",
+    "description": "Manage your games",
+    "new_game": "New Game",
+    "no_games": "No games yet. Start your first journey!",
+    "start_first_game": "Start First Game",
+    "mode_sandbox": "Sandbox",
+    "tempo_realistic": "Realistic",
+    "tempo_fast": "Fast",
+    "tempo_custom": "Custom",
+    "status_active": "Active",
+    "status_finished": "Finished",
+    "continue": "Continue",
+    "view_summary": "View Summary"
+  },
+  "game_new": {
+    "title": "New Game Setup",
+    "description": "Configure your new game",
+    "step_settings": "Game Settings",
+    "step_initial": "Initial State",
+    "next_step": "Next",
+    "back": "Back",
+    "start_game": "Start Game",
+    "creating": "Creating...",
+    "game_created": "Game Created!",
+    "game_started": "Your new journey begins now"
+  },
+  "layout": {
+    "game_hub": "Games"
   },
   "dashboard": {
     "title": "Dashboard",

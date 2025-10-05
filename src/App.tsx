@@ -7,6 +7,9 @@ import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Onboarding from "./pages/Onboarding";
+import GameHub from "./pages/GameHub";
+import GameNew from "./pages/GameNew";
 import Game from "./pages/Game";
 import Dashboard from "./pages/Dashboard";
 import Summary from "./pages/Summary";
@@ -24,6 +27,9 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
+            <Route path="/game-hub" element={<ProtectedRoute><GameHub /></ProtectedRoute>} />
+            <Route path="/game/new" element={<ProtectedRoute><GameNew /></ProtectedRoute>} />
             <Route path="/game" element={<ProtectedRoute><Game /></ProtectedRoute>} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/summary" element={<ProtectedRoute><Summary /></ProtectedRoute>} />

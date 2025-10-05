@@ -46,24 +46,43 @@ const Game = () => {
         return;
       }
 
-      // Get active game
-      const { data: game, error: gameError } = await supabase
-        .from("games")
-        .select("*")
-        .eq("user_id", user.id)
-        .eq("status", "active")
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+      // Check for gameId from URL params
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGameId = urlParams.get("gameId");
 
-      if (gameError) throw gameError;
+      let game;
+      if (urlGameId) {
+        // Load specific game from URL
+        const { data: specificGame, error: gameError } = await supabase
+          .from("games")
+          .select("*")
+          .eq("id", urlGameId)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (gameError) throw gameError;
+        game = specificGame;
+      } else {
+        // Get last active game
+        const { data: activeGame, error: gameError } = await supabase
+          .from("games")
+          .select("*")
+          .eq("user_id", user.id)
+          .eq("status", "active")
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        if (gameError) throw gameError;
+        game = activeGame;
+      }
 
       if (!game) {
         toast({
           title: t('game.no_active_game'),
           description: t('game.start_new_game'),
         });
-        navigate("/");
+        navigate("/game-hub");
         return;
       }
 
@@ -339,6 +358,9 @@ const Game = () => {
             avatarUrl={userProfile?.avatar_url}
             nickname={userProfile?.nickname}
             age={currentState.age}
+            health={currentState.health}
+            happiness={currentState.happiness}
+            userId={userProfile?.id}
           />
           <LifeStatsCard
             health={currentState.health}

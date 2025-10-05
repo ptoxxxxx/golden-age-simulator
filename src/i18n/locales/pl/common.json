@@ -84,7 +84,17 @@
     "file_too_large": "Plik za duży",
     "max_file_size": "Obraz musi być mniejszy niż 5MB",
     "generating_avatars": "Generowanie wariantów awatara",
-    "avatars_processing": "Tworzymy twoje awatary dla różnych etapów życia. To zajmie chwilę..."
+    "avatars_processing": "Tworzymy twoje awatary dla różnych etapów życia. To zajmie chwilę...",
+    "complete_profile": "Uzupełnij profil",
+    "setup_character": "Skonfiguruj swoją postać, aby rozpocząć podróż",
+    "name": "Imię",
+    "name_placeholder": "Wprowadź swoje imię",
+    "avatar": "Awatar",
+    "optional": "Opcjonalnie",
+    "saving": "Zapisywanie...",
+    "continue": "Kontynuuj",
+    "profile_complete": "Profil ukończony!",
+    "ready_to_play": "Jesteś gotowy, aby rozpocząć grę"
   },
   "game": {
     "turn": "Tura",
@@ -110,6 +120,9 @@
     "happiness": "Szczęście",
     "relationships": "Relacje",
     "education": "Edukacja",
+    "education_high_school": "Liceum",
+    "education_bachelors": "Licencjat",
+    "education_masters": "Magisterium",
     "riskLevel": "Poziom Ryzyka",
     "selectOption": "Wybierz opcję",
     "nextTurn": "Następna tura",
@@ -141,7 +154,38 @@
     "confirm_choice": "Zatwierdź wybór",
     "advisory_title": "Wpływ decyzji",
     "advisory_description": "Ta decyzja może mieć następujące efekty:",
-    "coach_advisor": "Doradca AI"
+    "coach_advisor": "Doradca AI",
+    "saldo": "Saldo"
+  },
+  "game_hub": {
+    "title": "Hub Gier",
+    "description": "Zarządzaj swoimi grami",
+    "new_game": "Nowa Gra",
+    "no_games": "Brak gier. Rozpocznij swoją pierwszą podróż!",
+    "start_first_game": "Rozpocznij pierwszą grę",
+    "mode_sandbox": "Piaskownica",
+    "tempo_realistic": "Realistyczny",
+    "tempo_fast": "Szybki",
+    "tempo_custom": "Niestandardowy",
+    "status_active": "Aktywna",
+    "status_finished": "Zakończona",
+    "continue": "Kontynuuj",
+    "view_summary": "Zobacz podsumowanie"
+  },
+  "game_new": {
+    "title": "Nowa Gra",
+    "description": "Skonfiguruj swoją nową grę",
+    "step_settings": "Ustawienia gry",
+    "step_initial": "Stan początkowy",
+    "next_step": "Dalej",
+    "back": "Wstecz",
+    "start_game": "Rozpocznij grę",
+    "creating": "Tworzenie...",
+    "game_created": "Gra utworzona!",
+    "game_started": "Twoja nowa podróż się rozpoczyna"
+  },
+  "layout": {
+    "game_hub": "Gry"
   },
   "dashboard": {
     "title": "Panel",

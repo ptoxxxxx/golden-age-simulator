@@ -17,12 +17,23 @@ const Auth = () => {
     (searchParams.get("mode") as AuthMode) || "sign-in"
   );
 
-  // Check if user is already authenticated
+  // Check if user is already authenticated and has profile
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        navigate("/");
+        // Check if user has completed profile
+        const { data: profile } = await supabase
+          .from("users")
+          .select("nickname, avatar_url")
+          .eq("id", session.user.id)
+          .maybeSingle();
+        
+        if (profile?.nickname) {
+          navigate("/game-hub");
+        } else {
+          navigate("/onboarding");
+        }
       }
     };
     checkAuth();

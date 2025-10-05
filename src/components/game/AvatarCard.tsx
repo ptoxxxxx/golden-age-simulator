@@ -1,23 +1,45 @@
 import { useTranslation } from "react-i18next";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { User } from "lucide-react";
+import { getAvatarForState } from "@/lib/avatarUtils";
 
 interface AvatarCardProps {
   avatarUrl?: string;
   nickname?: string;
   age: number;
+  health?: number;
+  happiness?: number;
+  userId?: string;
 }
 
-const AvatarCard = ({ avatarUrl, nickname }: AvatarCardProps) => {
+const AvatarCard = ({ avatarUrl, nickname, age, health, happiness, userId }: AvatarCardProps) => {
   const { t } = useTranslation();
+  const [displayAvatar, setDisplayAvatar] = useState<string | null>(avatarUrl || null);
+
+  useEffect(() => {
+    const loadAvatar = async () => {
+      if (userId && health !== undefined && happiness !== undefined) {
+        const dynamicAvatar = await getAvatarForState(userId, age, health, happiness);
+        if (dynamicAvatar) {
+          setDisplayAvatar(dynamicAvatar);
+          return;
+        }
+      }
+      // Fallback to base avatar
+      setDisplayAvatar(avatarUrl || null);
+    };
+
+    loadAvatar();
+  }, [userId, age, health, happiness, avatarUrl]);
 
   return (
     <Card className="h-full">
       <CardContent className="p-6 flex items-center justify-center h-full">
         <div className="flex flex-col items-center gap-4 w-full">
           <Avatar className="w-48 h-48 border-4 border-primary">
-            <AvatarImage src={avatarUrl} alt={nickname || t('game.player')} />
+            <AvatarImage src={displayAvatar || undefined} alt={nickname || t('game.player')} />
             <AvatarFallback className="bg-muted">
               <User className="w-24 h-24 text-muted-foreground" />
             </AvatarFallback>

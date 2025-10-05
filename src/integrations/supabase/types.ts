@@ -307,18 +307,21 @@ export type Database = {
           created_at: string | null
           id: string
           nickname: string | null
+          preferred_initial_state: Json | null
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string | null
           id: string
           nickname?: string | null
+          preferred_initial_state?: Json | null
         }
         Update: {
           avatar_url?: string | null
           created_at?: string | null
           id?: string
           nickname?: string | null
+          preferred_initial_state?: Json | null
         }
         Relationships: []
       }
