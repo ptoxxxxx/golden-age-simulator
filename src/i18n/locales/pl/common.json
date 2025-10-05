@@ -90,7 +90,7 @@
     "name": "Imię",
     "name_placeholder": "Wprowadź swoje imię",
     "avatar": "Awatar",
-    "optional": "Opcjonalnie",
+    "recommended": "wskazane",
     "saving": "Zapisywanie...",
     "continue": "Kontynuuj",
     "profile_complete": "Profil ukończony!",

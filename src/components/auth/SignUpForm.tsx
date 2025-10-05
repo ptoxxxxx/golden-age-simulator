@@ -62,15 +62,8 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
         return;
       }
 
-      toast({
-        title: t('auth.account_created'),
-        description: t('auth.verify_email'),
-      });
-
-      // Switch to sign in after successful registration
-      setTimeout(() => {
-        onSwitchToSignIn();
-      }, 2000);
+      // User will be automatically redirected to onboarding by Auth.tsx
+      // when the session is detected
     } catch (error: any) {
       toast({
         title: t('common.error'),

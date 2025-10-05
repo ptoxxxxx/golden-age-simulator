@@ -167,10 +167,7 @@ const Onboarding = () => {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label>{t("onboarding.avatar")} ({t("onboarding.optional")})</Label>
-              <AvatarUpload value={avatar} onChange={setAvatar} />
-            </div>
+            <AvatarUpload value={avatar} onChange={setAvatar} />
 
             <Button
               type="submit"

@@ -55,7 +55,7 @@ const AvatarUpload = ({ value, onChange, error }: AvatarUploadProps) => {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="avatar">{t('onboarding.avatar_label')}</Label>
+      <Label htmlFor="avatar">{t('onboarding.avatar')} ({t('onboarding.recommended')})</Label>
       <div className="flex items-center gap-4">
         {preview ? (
           <div className="relative">

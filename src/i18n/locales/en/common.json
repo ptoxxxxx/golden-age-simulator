@@ -90,7 +90,7 @@
     "name": "Name",
     "name_placeholder": "Enter your name",
     "avatar": "Avatar",
-    "optional": "Optional",
+    "recommended": "recommended",
     "saving": "Saving...",
     "continue": "Continue",
     "profile_complete": "Profile Complete!",
