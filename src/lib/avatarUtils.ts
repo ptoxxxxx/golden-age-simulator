@@ -15,12 +15,10 @@ export const getMoodFromStats = (health: number, happiness: number): string => {
  * Maps player age to age group used in avatar variations
  */
 export const getAgeGroup = (age: number): number => {
-  if (age < 30) return 20;
-  if (age < 40) return 30;
+  if (age < 25) return 20;
+  if (age < 35) return 30;
   if (age < 50) return 40;
-  if (age < 60) return 50;
   if (age < 70) return 60;
-  if (age < 80) return 70;
   return 80;
 };
 
