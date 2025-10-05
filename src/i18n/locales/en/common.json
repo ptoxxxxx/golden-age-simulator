@@ -137,7 +137,10 @@
     "ai_coach": "AI Coach",
     "turn_label": "Turn",
     "close": "Close",
-    "learn_more": "Learn More"
+    "learn_more": "Learn More",
+    "confirm_choice": "Confirm Choice",
+    "advisory_title": "Decision Impact",
+    "advisory_description": "This decision may have the following effects:"
   },
   "dashboard": {
     "title": "Dashboard",

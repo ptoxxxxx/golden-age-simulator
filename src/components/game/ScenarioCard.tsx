@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Lightbulb, Check } from "lucide-react";
 
 interface ScenarioOption {
   id: number;
@@ -21,12 +22,24 @@ interface ScenarioCardProps {
     area_pl?: string;
   };
   options: ScenarioOption[];
+  selectedOptionId: number | null;
   onSelectOption: (optionId: number) => void;
+  onConfirmOption: () => void;
+  onAdvisoryClick: (optionId: number, effects: Record<string, number>) => void;
   disabled?: boolean;
   language?: string;
 }
 
-const ScenarioCard = ({ scenario, options, onSelectOption, disabled, language = 'en' }: ScenarioCardProps) => {
+const ScenarioCard = ({ 
+  scenario, 
+  options, 
+  selectedOptionId,
+  onSelectOption, 
+  onConfirmOption,
+  onAdvisoryClick,
+  disabled, 
+  language = 'en' 
+}: ScenarioCardProps) => {
   const { t } = useTranslation();
   const isPolish = language === 'pl';
   
@@ -47,21 +60,56 @@ const ScenarioCard = ({ scenario, options, onSelectOption, disabled, language = 
         <div className="space-y-3">
           {options.map((option) => {
             const displayOptionText = isPolish && option.option_text_pl ? option.option_text_pl : option.option_text;
+            const isSelected = selectedOptionId === option.id;
+            
             return (
-              <Button
-                key={option.id}
-                onClick={() => onSelectOption(option.id)}
-                disabled={disabled}
-                variant="outline"
-                className="w-full text-left h-auto py-5 px-5 justify-start border-border/50 hover:border-primary/30 hover:bg-primary/5 transition-smooth shadow-modern-sm hover:shadow-modern-md group"
-              >
-                <span className="text-base leading-relaxed group-hover:text-foreground transition-colors">
-                  {displayOptionText}
-                </span>
-              </Button>
+              <div key={option.id} className="relative">
+                <Button
+                  onClick={() => onSelectOption(option.id)}
+                  disabled={disabled}
+                  variant="outline"
+                  className={`w-full text-left h-auto py-5 pl-12 pr-14 justify-start transition-smooth shadow-modern-sm group ${
+                    isSelected 
+                      ? 'bg-green-50 border-green-500 hover:bg-green-100 shadow-modern-md' 
+                      : 'border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:shadow-modern-md'
+                  }`}
+                >
+                  {isSelected && (
+                    <Check className="h-5 w-5 text-green-600 absolute left-3 top-1/2 -translate-y-1/2" />
+                  )}
+                  <span className="text-base leading-relaxed group-hover:text-foreground transition-colors">
+                    {displayOptionText}
+                  </span>
+                </Button>
+                
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onAdvisoryClick(option.id, option.effects || {});
+                  }}
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 hover:bg-amber-100"
+                  disabled={disabled}
+                  title={t('game.advisory_title')}
+                >
+                  <Lightbulb className="h-4 w-4 text-amber-500" />
+                </Button>
+              </div>
             );
           })}
         </div>
+        
+        {selectedOptionId && (
+          <Button
+            onClick={onConfirmOption}
+            disabled={disabled}
+            className="w-full bg-[#007834] hover:bg-[#006329] mt-4"
+            size="lg"
+          >
+            {t('game.confirm_choice')}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

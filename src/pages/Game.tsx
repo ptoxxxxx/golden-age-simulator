@@ -9,6 +9,7 @@ import LifeStatsCard from "@/components/game/LifeStatsCard";
 import FinancialStatsCard from "@/components/game/FinancialStatsCard";
 import ScenarioCard from "@/components/game/ScenarioCard";
 import CoachComment from "@/components/game/CoachComment";
+import AdvisoryPopup from "@/components/game/AdvisoryPopup";
 import LifeProgressBar from "@/components/game/LifeProgressBar";
 import { applyEffects, calculateAgeIncrement, isGameOver } from "@/lib/gameUtils";
 import { ArrowRight, BarChart3 } from "lucide-react";
@@ -22,9 +23,12 @@ const Game = () => {
   const [currentState, setCurrentState] = useState<any>(null);
   const [scenario, setScenario] = useState<any>(null);
   const [options, setOptions] = useState<any[]>([]);
-  const [selectedOption, setSelectedOption] = useState<any>(null);
+  const [selectedOptionId, setSelectedOptionId] = useState<number | null>(null);
+  const [confirmedOption, setConfirmedOption] = useState<any>(null);
   const [coachComment, setCoachComment] = useState<string | null>(null);
   const [coachDialogOpen, setCoachDialogOpen] = useState(false);
+  const [advisoryEffects, setAdvisoryEffects] = useState<Record<string, number>>({});
+  const [advisoryDialogOpen, setAdvisoryDialogOpen] = useState(false);
   const [tempoProfile, setTempoProfile] = useState<string>("realistic");
   const [tempoCustomConfig, setTempoCustomConfig] = useState<any>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -159,15 +163,24 @@ const Game = () => {
     }
   };
 
-  const handleSelectOption = async (optionId: number) => {
-    if (!currentState || !gameId) return;
+  const handleSelectOption = (optionId: number) => {
+    setSelectedOptionId(optionId);
+  };
+
+  const handleAdvisoryClick = (optionId: number, effects: Record<string, number>) => {
+    setAdvisoryEffects(effects);
+    setAdvisoryDialogOpen(true);
+  };
+
+  const handleConfirmOption = async () => {
+    if (!currentState || !gameId || !selectedOptionId) return;
 
     setProcessing(true);
     try {
-      const option = options.find((o) => o.id === optionId);
+      const option = options.find((o) => o.id === selectedOptionId);
       if (!option) return;
 
-      setSelectedOption(option);
+      setConfirmedOption(option);
       
       // Use Polish comment if language is Polish and Polish comment exists
       const displayComment = i18n.language === 'pl' && option.ai_coach_comment_pl 
@@ -182,7 +195,7 @@ const Game = () => {
         user_id: currentState.user_id || (await supabase.auth.getUser()).data.user?.id,
         turn_number: currentState.turn_number,
         scenario_id: scenario.id,
-        option_id: optionId,
+        option_id: selectedOptionId,
         effects: option.effects,
       });
     } catch (error: any) {
@@ -223,7 +236,7 @@ const Game = () => {
   };
 
   const handleNextTurn = async () => {
-    if (!currentState || !gameId || !selectedOption) return;
+    if (!currentState || !gameId || !confirmedOption) return;
 
     setProcessing(true);
     try {
@@ -232,7 +245,7 @@ const Game = () => {
       const newAge = currentState.age + ageIncrement;
       
       const newState = {
-        ...applyEffects(currentState, selectedOption.effects || {}),
+        ...applyEffects(currentState, confirmedOption.effects || {}),
         age: newAge,
         turn_number: currentState.turn_number + 1,
       };
@@ -265,7 +278,8 @@ const Game = () => {
 
       // Reset for next turn
       setCurrentState(newState);
-      setSelectedOption(null);
+      setSelectedOptionId(null);
+      setConfirmedOption(null);
       setCoachComment(null);
       setCoachDialogOpen(false);
 
@@ -347,13 +361,23 @@ const Game = () => {
           <ScenarioCard
             scenario={scenario}
             options={options}
+            selectedOptionId={selectedOptionId}
             onSelectOption={handleSelectOption}
-            disabled={!!selectedOption || processing}
+            onConfirmOption={handleConfirmOption}
+            onAdvisoryClick={handleAdvisoryClick}
+            disabled={!!confirmedOption || processing}
             language={i18n.language}
           />
         </div>
 
-        {/* Coach Comment Dialog */}
+        {/* Advisory Popup (before choice) */}
+        <AdvisoryPopup
+          effects={advisoryEffects}
+          open={advisoryDialogOpen}
+          onOpenChange={setAdvisoryDialogOpen}
+        />
+
+        {/* Coach Comment Dialog (after choice) */}
         {coachComment && (
           <CoachComment 
             comment={coachComment} 
@@ -362,7 +386,7 @@ const Game = () => {
           />
         )}
 
-        {selectedOption && (
+        {confirmedOption && (
           <div className="flex justify-end">
             <Button
               onClick={handleNextTurn}

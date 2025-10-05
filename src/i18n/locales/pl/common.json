@@ -137,7 +137,10 @@
     "ai_coach": "Trener AI",
     "turn_label": "Tura",
     "close": "Zamknij",
-    "learn_more": "Dowiedz się więcej"
+    "learn_more": "Dowiedz się więcej",
+    "confirm_choice": "Zatwierdź wybór",
+    "advisory_title": "Wpływ decyzji",
+    "advisory_description": "Ta decyzja może mieć następujące efekty:"
   },
   "dashboard": {
     "title": "Panel",
