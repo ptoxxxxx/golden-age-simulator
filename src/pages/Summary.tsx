@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
-import { Trophy, TrendingUp, Heart, Smile, Users, Wallet, Home } from "lucide-react";
+import { Trophy, TrendingUp, Heart, Briefcase, GraduationCap, Gamepad2, Users, Wallet, Home } from "lucide-react";
 
 const Summary = () => {
   const { t } = useTranslation();
@@ -80,7 +80,9 @@ const Summary = () => {
     // Simple scoring: average of key metrics
     const metrics = [
       finalState.health,
-      finalState.happiness,
+      finalState.career,
+      finalState.education_level,
+      finalState.entertainment,
       finalState.relationships,
     ];
     const avgWellbeing = metrics.reduce((a, b) => a + b, 0) / metrics.length;
@@ -224,16 +226,26 @@ const Summary = () => {
             <CardTitle>{t('summary.wellbeing')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-6 text-center">
+            <div className="grid grid-cols-5 gap-4 text-center">
               <div>
                 <Heart className="h-8 w-8 text-red-500 mx-auto mb-2" />
                 <div className="text-3xl font-bold text-[#283754]">{finalState.health}%</div>
                 <div className="text-sm text-muted-foreground">{t('game.health')}</div>
               </div>
               <div>
-                <Smile className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
-                <div className="text-3xl font-bold text-[#283754]">{finalState.happiness}%</div>
-                <div className="text-sm text-muted-foreground">{t('game.happiness')}</div>
+                <Briefcase className="h-8 w-8 text-purple-500 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-[#283754]">{finalState.career}%</div>
+                <div className="text-sm text-muted-foreground">{t('game.career')}</div>
+              </div>
+              <div>
+                <GraduationCap className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-[#283754]">{finalState.education_level}%</div>
+                <div className="text-sm text-muted-foreground">{t('game.education_level')}</div>
+              </div>
+              <div>
+                <Gamepad2 className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-[#283754]">{finalState.entertainment}%</div>
+                <div className="text-sm text-muted-foreground">{t('game.entertainment')}</div>
               </div>
               <div>
                 <Users className="h-8 w-8 text-blue-500 mx-auto mb-2" />

@@ -116,7 +116,9 @@ const Dashboard = () => {
     turn: state.turn_number,
     age: state.age,
     health: state.health,
-    happiness: state.happiness,
+    career: state.career,
+    education_level: state.education_level,
+    entertainment: state.entertainment,
     relationships: state.relationships,
   }));
 
@@ -189,7 +191,9 @@ const Dashboard = () => {
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="health" stroke="#EF4444" name={t('game.health')} />
-                    <Line type="monotone" dataKey="happiness" stroke="#F59E0B" name={t('game.happiness')} />
+                    <Line type="monotone" dataKey="career" stroke="#8B5CF6" name={t('game.career')} />
+                    <Line type="monotone" dataKey="education_level" stroke="#10B981" name={t('game.education_level')} />
+                    <Line type="monotone" dataKey="entertainment" stroke="#F59E0B" name={t('game.entertainment')} />
                     <Line type="monotone" dataKey="relationships" stroke="#3B82F6" name={t('game.relationships')} />
                   </LineChart>
                 </ResponsiveContainer>

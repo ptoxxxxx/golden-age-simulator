@@ -11,7 +11,9 @@ interface AdvisoryPopupProps {
 
 const EFFECT_LABELS: Record<string, string> = {
   health: "Zdrowie",
-  happiness: "Szczęście",
+  career: "Kariera",
+  education_level: "Edukacja",
+  entertainment: "Rozrywka",
   relationships: "Relacje",
   saldo: "Saldo",
   savings: "Oszczędności",
