@@ -32,30 +32,27 @@ const TempoProfileSelector = ({ value, onChange }: TempoProfileSelectorProps) =>
       <RadioGroup value={value} onValueChange={onChange}>
         <div className="grid gap-3">
           {profiles.map((profile) => (
-            <Card
-              key={profile.id}
-              className={`p-4 cursor-pointer transition-colors ${
-                value === profile.id
-                  ? "border-primary bg-primary/5"
-                  : "border-border hover:border-primary/50"
-              }`}
-              onClick={() => onChange(profile.id)}
-            >
-              <div className="flex items-start gap-3">
-                <RadioGroupItem value={profile.id} id={profile.id} />
-                <div className="flex-1">
-                  <label
-                    htmlFor={profile.id}
-                    className="font-medium cursor-pointer block"
-                  >
-                    {profile.name}
-                  </label>
-                  <p className="text-sm text-muted-foreground">
-                    {profile.description}
-                  </p>
+            <label key={profile.id} htmlFor={profile.id} className="cursor-pointer">
+              <Card
+                className={`p-4 transition-colors ${
+                  value === profile.id
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <RadioGroupItem value={profile.id} id={profile.id} />
+                  <div className="flex-1">
+                    <div className="font-medium">
+                      {profile.name}
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {profile.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </label>
           ))}
         </div>
       </RadioGroup>
