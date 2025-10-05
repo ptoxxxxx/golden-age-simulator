@@ -32,115 +32,136 @@ serve(async (req) => {
     const relevantAgeGroups = AGE_GROUPS.filter(age => age >= userAge);
     console.log('Generating for age groups:', relevantAgeGroups);
 
-    const variations = [];
+    // Background task to generate all variations
+    const generateAllVariations = async () => {
+      const variations = [];
 
-    for (const ageGroup of relevantAgeGroups) {
-      for (const mood of MOODS) {
-        console.log(`Generating avatar for age ${ageGroup}, mood ${mood}`);
+      for (const ageGroup of relevantAgeGroups) {
+        for (const mood of MOODS) {
+          console.log(`Generating avatar for age ${ageGroup}, mood ${mood}`);
 
-        // Create prompt for avatar variation
-        const prompt = `Transform this person to age ${ageGroup} with a ${mood} expression. 
-Maintain realistic photographic style, same person identity, professional portrait quality. 
-Keep the same ethnicity, gender, and core facial features. 
-${mood === 'happy' ? 'Subtle smile, bright eyes.' : ''}
-${mood === 'sad' ? 'Subtle sadness, contemplative look.' : ''}
-${mood === 'neutral' ? 'Calm, professional neutral expression.' : ''}
-Natural lighting, high quality, photorealistic.`;
+          // CRITICAL: Keep the EXACT same person, only change age and facial expression
+          const prompt = `IMPORTANT: This must be the EXACT SAME PERSON, keep their unique identity perfectly.
+Age this person to ${ageGroup} years old with a ${mood} facial expression.
 
-        try {
-          // Call Lovable AI to edit the image
-          const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              model: 'google/gemini-2.5-flash-image-preview',
-              messages: [
-                {
-                  role: 'user',
-                  content: [
-                    { type: 'text', text: prompt },
-                    { type: 'image_url', image_url: { url: avatarUrl } }
-                  ]
-                }
-              ],
-              modalities: ['image', 'text']
-            })
-          });
+PRESERVE COMPLETELY:
+- The exact same face structure and features
+- Same ethnicity and skin tone
+- Same gender
+- Same hair color (adjusted for age)
+- Same eye color and shape
+- Same nose, mouth, and face shape
+- Same person's unique characteristics
 
-          if (!aiResponse.ok) {
-            console.error(`AI API error for age ${ageGroup}, mood ${mood}:`, await aiResponse.text());
-            continue;
-          }
+ONLY CHANGE:
+- Age appearance (wrinkles, skin texture appropriate for age ${ageGroup})
+- Facial expression: ${mood === 'happy' ? 'subtle natural smile, warm friendly eyes' : mood === 'sad' ? 'contemplative look, slightly downturned mouth, pensive eyes' : 'calm neutral expression, relaxed face'}
+- Age-appropriate details (grey hair if older, etc.)
 
-          const aiData = await aiResponse.json();
-          const generatedImageBase64 = aiData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+Photorealistic, professional portrait, natural lighting, same background style.`;
 
-          if (!generatedImageBase64) {
-            console.error('No image generated');
-            continue;
-          }
-
-          // Extract base64 data
-          const base64Data = generatedImageBase64.replace(/^data:image\/\w+;base64,/, '');
-          const imageBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-
-          // Upload to Supabase Storage
-          const filename = `${userId}/age_${ageGroup}_${mood}_${Date.now()}.png`;
-          const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('avatars')
-            .upload(filename, imageBuffer, {
-              contentType: 'image/png',
-              upsert: false
+          try {
+            // Call Lovable AI to edit the image
+            const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${LOVABLE_API_KEY}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                model: 'google/gemini-2.5-flash-image-preview',
+                messages: [
+                  {
+                    role: 'user',
+                    content: [
+                      { type: 'text', text: prompt },
+                      { type: 'image_url', image_url: { url: avatarUrl } }
+                    ]
+                  }
+                ],
+                modalities: ['image', 'text']
+              })
             });
 
-          if (uploadError) {
-            console.error(`Upload error for age ${ageGroup}, mood ${mood}:`, uploadError);
-            continue;
-          }
+            if (!aiResponse.ok) {
+              console.error(`AI API error for age ${ageGroup}, mood ${mood}:`, await aiResponse.text());
+              continue;
+            }
 
-          // Get public URL
-          const { data: { publicUrl } } = supabase.storage
-            .from('avatars')
-            .getPublicUrl(filename);
+            const aiData = await aiResponse.json();
+            const generatedImageBase64 = aiData.choices?.[0]?.message?.images?.[0]?.image_url?.url;
 
-          // Save to database
-          const { error: dbError } = await supabase
-            .from('user_avatars')
-            .insert({
-              user_id: userId,
-              avatar_url: publicUrl,
+            if (!generatedImageBase64) {
+              console.error('No image generated');
+              continue;
+            }
+
+            // Extract base64 data
+            const base64Data = generatedImageBase64.replace(/^data:image\/\w+;base64,/, '');
+            const imageBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+
+            // Upload to Supabase Storage
+            const filename = `${userId}/age_${ageGroup}_${mood}_${Date.now()}.png`;
+            const { error: uploadError } = await supabase.storage
+              .from('avatars')
+              .upload(filename, imageBuffer, {
+                contentType: 'image/png',
+                upsert: false
+              });
+
+            if (uploadError) {
+              console.error(`Upload error for age ${ageGroup}, mood ${mood}:`, uploadError);
+              continue;
+            }
+
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+              .from('avatars')
+              .getPublicUrl(filename);
+
+            // Save to database
+            const { error: dbError } = await supabase
+              .from('user_avatars')
+              .insert({
+                user_id: userId,
+                avatar_url: publicUrl,
+                age_group: ageGroup,
+                mood: mood,
+              });
+
+            if (dbError) {
+              console.error(`Database error for age ${ageGroup}, mood ${mood}:`, dbError);
+              continue;
+            }
+
+            variations.push({
               age_group: ageGroup,
               mood: mood,
+              avatar_url: publicUrl
             });
 
-          if (dbError) {
-            console.error(`Database error for age ${ageGroup}, mood ${mood}:`, dbError);
-            continue;
+            console.log(`✓ Generated avatar for age ${ageGroup}, mood ${mood}`);
+          } catch (error) {
+            console.error(`Error generating variation for age ${ageGroup}, mood ${mood}:`, error);
           }
-
-          variations.push({
-            age_group: ageGroup,
-            mood: mood,
-            avatar_url: publicUrl
-          });
-
-          console.log(`✓ Generated avatar for age ${ageGroup}, mood ${mood}`);
-        } catch (error) {
-          console.error(`Error generating variation for age ${ageGroup}, mood ${mood}:`, error);
         }
       }
-    }
 
-    console.log(`Generated ${variations.length} avatar variations`);
+      console.log(`✓ Completed: Generated ${variations.length} avatar variations`);
+      return variations;
+    };
+
+    // Start background task and return immediately
+    // @ts-ignore - EdgeRuntime is available in Deno Deploy
+    EdgeRuntime.waitUntil(generateAllVariations());
+
+    console.log('Avatar generation started in background');
 
     return new Response(
       JSON.stringify({ 
         success: true, 
-        variations,
-        count: variations.length 
+        message: 'Avatar generation started in background',
+        expected_count: relevantAgeGroups.length * MOODS.length
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
