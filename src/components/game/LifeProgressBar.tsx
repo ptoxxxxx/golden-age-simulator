@@ -1,27 +1,15 @@
-import { useTranslation } from "react-i18next";
-import { Calendar } from "lucide-react";
-
 interface LifeProgressBarProps {
   age: number;
 }
 
 const LifeProgressBar = ({ age }: LifeProgressBarProps) => {
-  const { t } = useTranslation();
-  
   const MIN_AGE = 20;
   const MAX_AGE = 100;
   const progress = ((age - MIN_AGE) / (MAX_AGE - MIN_AGE)) * 100;
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-2 mb-3">
-        <Calendar className="h-5 w-5 text-primary" />
-        <span className="text-lg font-semibold text-foreground">
-          {t('game.life_progress')}
-        </span>
-      </div>
-      
-      <div className="relative">
+      <div className="relative pt-4">
         {/* Progress bar background */}
         <div className="h-3 w-full overflow-hidden rounded-full bg-secondary">
           <div 
@@ -41,7 +29,7 @@ const LifeProgressBar = ({ age }: LifeProgressBarProps) => {
         </div>
       </div>
       
-      <div className="flex justify-between text-xs text-muted-foreground mt-2">
+      <div className="flex justify-between text-xs text-muted-foreground">
         <span>{MIN_AGE}</span>
         <span>{MAX_AGE}</span>
       </div>
