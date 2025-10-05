@@ -30,39 +30,34 @@ const ScenarioCard = ({ scenario, options, onSelectOption, disabled, language = 
   const { t } = useTranslation();
   const isPolish = language === 'pl';
   
-  const displayArea = isPolish && scenario.area_pl ? scenario.area_pl : scenario.area;
   const displayPrompt = isPolish && scenario.story_prompt_pl ? scenario.story_prompt_pl : scenario.story_prompt;
   
   return (
     <Card className="animate-fade-in">
-      <CardHeader>
-        {displayArea && (
-          <Badge variant="secondary" className="w-fit mb-2">
-            {displayArea}
-          </Badge>
-        )}
-        <CardTitle className="text-2xl text-[#283754]">{t('game.life_decision')}</CardTitle>
-        <CardDescription className="text-base mt-4">
+      <CardHeader className="space-y-4">
+        <CardTitle className="text-3xl font-bold text-[#283754] leading-tight">
           {displayPrompt}
-        </CardDescription>
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-muted-foreground mb-2">{t('game.what_will_you_do')}</p>
-          {options.map((option) => {
-            const displayOptionText = isPolish && option.option_text_pl ? option.option_text_pl : option.option_text;
-            return (
-              <Button
-                key={option.id}
-                onClick={() => onSelectOption(option.id)}
-                disabled={disabled}
-                variant="outline"
-                className="w-full text-left h-auto py-4 px-4 justify-start hover-scale"
-              >
-                <span className="text-sm">{displayOptionText}</span>
-              </Button>
-            );
-          })}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-[#283754]">{t('game.what_will_you_do')}</h3>
+          <div className="space-y-3">
+            {options.map((option) => {
+              const displayOptionText = isPolish && option.option_text_pl ? option.option_text_pl : option.option_text;
+              return (
+                <Button
+                  key={option.id}
+                  onClick={() => onSelectOption(option.id)}
+                  disabled={disabled}
+                  variant="outline"
+                  className="w-full text-left h-auto py-4 px-4 justify-start hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <span className="text-base">{displayOptionText}</span>
+                </Button>
+              );
+            })}
+          </div>
         </div>
       </CardContent>
     </Card>
