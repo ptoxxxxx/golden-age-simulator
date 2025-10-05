@@ -69,68 +69,62 @@ const FinancialStatsCard = ({
 
   return (
     <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="text-lg">{t('game.financial_parameters')}</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base">{t('game.financial_parameters')}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Salary Section */}
-        <div className="p-3 rounded-lg bg-muted/30 space-y-2">
+      <CardContent className="space-y-2">
+        {/* Salary & ZUS Section */}
+        <div className="p-2 rounded-lg bg-muted/30 space-y-1.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Banknote className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t('game.salary')}</span>
+            <div className="flex items-center gap-1.5">
+              <Banknote className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{t('game.salary')}</span>
             </div>
-            <span className="text-sm font-medium">{formatCurrency(salary)}</span>
+            <span className="text-xs font-medium">{formatCurrency(salary)}</span>
           </div>
-        </div>
-
-        {/* ZUS Section */}
-        <div className="p-3 rounded-lg bg-muted/30 space-y-2">
+          
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingDown className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t('game.zus_contribution')}</span>
+            <div className="flex items-center gap-1.5">
+              <TrendingDown className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{t('game.zus_contribution')}</span>
             </div>
-            <span className="text-sm font-medium">{formatCurrency(zus_contributions)}</span>
+            <span className="text-xs font-medium">{formatCurrency(zus_contributions)}</span>
           </div>
-        </div>
 
-        {/* Account Balance */}
-        <div className="p-3 rounded-lg bg-primary/5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Wallet className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm">{t('game.balance')}</span>
+          <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center gap-1.5">
+              <Wallet className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs font-medium">{t('game.balance')}</span>
             </div>
-            <span className="text-base font-bold text-foreground">{formatCurrency(saldo)}</span>
+            <span className="text-sm font-bold text-foreground">{formatCurrency(saldo)}</span>
           </div>
         </div>
 
         {/* Additional Investments Section */}
-        <div className="p-3 rounded-lg bg-muted/30 space-y-2">
+        <div className="p-2 rounded-lg bg-muted/30 space-y-1.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <PiggyBank className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t('game.additional_savings')}</span>
+            <div className="flex items-center gap-1.5">
+              <PiggyBank className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{t('game.additional_savings')}</span>
             </div>
-            <span className="text-sm font-medium">{formatCurrency(savings)}</span>
+            <span className="text-xs font-medium">{formatCurrency(savings)}</span>
           </div>
           
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t('game.investments')}</span>
+            <div className="flex items-center gap-1.5">
+              <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{t('game.investments')}</span>
             </div>
-            <span className="text-sm font-medium">{formatCurrency(private_investments)}</span>
+            <span className="text-xs font-medium">{formatCurrency(private_investments)}</span>
           </div>
         </div>
 
-        {/* Retirement Planning Section */}
-        <div className="border-t pt-3 mt-3 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t('game.planned_retirement_age')}</span>
+        {/* Retirement Planning Section - Prominent */}
+        <div className="p-3 rounded-lg bg-primary/10 space-y-3 mt-3">
+          <div className="flex flex-col items-center text-center space-y-1">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
+              <Calendar className="h-3.5 w-3.5" />
+              <span className="text-xs">{t('game.planned_retirement_age')}</span>
             </div>
             <Input
               type="number"
@@ -138,16 +132,16 @@ const FinancialStatsCard = ({
               onChange={handleRetirementAgeChange}
               min={MIN_RETIREMENT_AGE}
               max={MAX_RETIREMENT_AGE}
-              className="w-20 h-8 text-right text-sm"
+              className="w-24 h-12 text-center text-3xl font-bold border-2"
             />
           </div>
 
-          <div className="flex items-center justify-between p-2 rounded-lg bg-primary/5">
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
-              <span className="text-sm font-semibold">{t('game.estimated_pension')}</span>
+          <div className="flex flex-col items-center text-center space-y-1 pt-2 border-t">
+            <div className="flex items-center gap-1.5 text-primary">
+              <Shield className="h-4 w-4" />
+              <span className="text-xs font-semibold">{t('game.estimated_pension')}</span>
             </div>
-            <span className="text-base font-bold text-primary">{formatCurrency(estimated_pension)}</span>
+            <span className="text-2xl font-bold text-primary">{formatCurrency(estimated_pension)}</span>
           </div>
         </div>
       </CardContent>
