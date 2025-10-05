@@ -213,12 +213,34 @@ const GameNew = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="happiness">{t("game.happiness")} (%)</Label>
+                  <Label htmlFor="career">{t("game.career")} (%)</Label>
                   <Input
-                    id="happiness"
+                    id="career"
                     type="number"
-                    value={initialState.happiness}
-                    onChange={(e) => handleStateChange("happiness", parseInt(e.target.value))}
+                    value={initialState.career}
+                    onChange={(e) => handleStateChange("career", parseInt(e.target.value))}
+                    min={0}
+                    max={100}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="education_level">{t("game.education_level")} (%)</Label>
+                  <Input
+                    id="education_level"
+                    type="number"
+                    value={initialState.education_level}
+                    onChange={(e) => handleStateChange("education_level", parseInt(e.target.value))}
+                    min={0}
+                    max={100}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="entertainment">{t("game.entertainment")} (%)</Label>
+                  <Input
+                    id="entertainment"
+                    type="number"
+                    value={initialState.entertainment}
+                    onChange={(e) => handleStateChange("entertainment", parseInt(e.target.value))}
                     min={0}
                     max={100}
                   />

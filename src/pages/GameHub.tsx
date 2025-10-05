@@ -16,7 +16,7 @@ interface Game {
   player_state?: {
     age: number;
     health: number;
-    happiness: number;
+    career: number;
     saldo: number;
   };
 }
@@ -58,7 +58,7 @@ const GameHub = () => {
         (gamesData || []).map(async (game) => {
           const { data: stateData } = await supabase
             .from("player_states")
-            .select("age, health, happiness, saldo")
+            .select("age, health, career, saldo")
             .eq("game_id", game.id)
             .order("turn_number", { ascending: false })
             .limit(1)
@@ -158,7 +158,7 @@ const GameHub = () => {
                       <div className="flex gap-4 text-sm">
                         <span>{t("game.age")}: {game.player_state.age}</span>
                         <span>{t("game.health")}: {game.player_state.health}%</span>
-                        <span>{t("game.happiness")}: {game.player_state.happiness}%</span>
+                        <span>{t("game.career")}: {game.player_state.career}%</span>
                         <span>{t("game.saldo")}: {game.player_state.saldo} PLN</span>
                       </div>
                       <div className="flex gap-2">

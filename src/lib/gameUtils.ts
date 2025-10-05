@@ -2,7 +2,9 @@ export const INITIAL_PLAYER_STATE = {
   age: 20,
   education: "high_school",
   health: 80,
-  happiness: 70,
+  career: 50,
+  education_level: 50,
+  entertainment: 50,
   relationships: 60,
   saldo: 1000,
   zus_account: 0,
@@ -28,8 +30,8 @@ export const applyEffects = (
   
   Object.entries(effects).forEach(([key, value]) => {
     if (typeof newState[key] === "number") {
-      // Clamp percentage values (health, happiness, relationships, risk_level)
-      if (['health', 'happiness', 'relationships', 'risk_level'].includes(key)) {
+      // Clamp percentage values (health, career, education_level, entertainment, relationships, risk_level)
+      if (['health', 'career', 'education_level', 'entertainment', 'relationships', 'risk_level'].includes(key)) {
         newState[key] = Math.max(0, Math.min(100, newState[key] + value));
       } else {
         // For financial values, just add (no clamping)

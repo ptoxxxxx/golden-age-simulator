@@ -105,11 +105,13 @@ export type Database = {
       player_states: {
         Row: {
           age: number
+          career: number | null
           created_at: string | null
           education: string | null
+          education_level: number | null
+          entertainment: number | null
           estimated_pension: number | null
           game_id: string
-          happiness: number | null
           health: number | null
           id: number
           insurance_status: string | null
@@ -127,11 +129,13 @@ export type Database = {
         }
         Insert: {
           age: number
+          career?: number | null
           created_at?: string | null
           education?: string | null
+          education_level?: number | null
+          entertainment?: number | null
           estimated_pension?: number | null
           game_id: string
-          happiness?: number | null
           health?: number | null
           id?: number
           insurance_status?: string | null
@@ -149,11 +153,13 @@ export type Database = {
         }
         Update: {
           age?: number
+          career?: number | null
           created_at?: string | null
           education?: string | null
+          education_level?: number | null
+          entertainment?: number | null
           estimated_pension?: number | null
           game_id?: string
-          happiness?: number | null
           health?: number | null
           id?: number
           insurance_status?: string | null

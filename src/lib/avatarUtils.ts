@@ -1,10 +1,17 @@
 import { supabase } from "@/integrations/supabase/client";
 
 /**
- * Determines mood based on player's health and happiness
+ * Determines mood based on player's overall wellbeing
+ * Calculated from health, career, education_level, entertainment, and relationships
  */
-export const getMoodFromStats = (health: number, happiness: number): string => {
-  const avg = (health + happiness) / 2;
+export const getMoodFromStats = (
+  health: number, 
+  career: number,
+  education_level: number,
+  entertainment: number,
+  relationships: number
+): string => {
+  const avg = (health + career + education_level + entertainment + relationships) / 5;
   
   if (avg >= 70) return "happy";
   if (avg >= 40) return "neutral";
@@ -30,10 +37,13 @@ export const getAvatarForState = async (
   userId: string,
   age: number,
   health: number,
-  happiness: number
+  career: number,
+  education_level: number,
+  entertainment: number,
+  relationships: number
 ): Promise<string | null> => {
   const ageGroup = getAgeGroup(age);
-  const mood = getMoodFromStats(health, happiness);
+  const mood = getMoodFromStats(health, career, education_level, entertainment, relationships);
 
   // Try to find exact match
   const { data: exactMatch } = await supabase

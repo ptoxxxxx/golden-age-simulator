@@ -1,11 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Heart, Smile, Users } from "lucide-react";
+import { Heart, Briefcase, GraduationCap, Gamepad2, Users } from "lucide-react";
 
 interface LifeStatsCardProps {
   health: number;
-  happiness: number;
+  career: number;
+  education_level: number;
+  entertainment: number;
   relationships: number;
 }
 
@@ -21,7 +23,7 @@ const getTextColor = (value: number) => {
   return "text-red-600";
 };
 
-const LifeStatsCard = ({ health, happiness, relationships }: LifeStatsCardProps) => {
+const LifeStatsCard = ({ health, career, education_level, entertainment, relationships }: LifeStatsCardProps) => {
   const { t } = useTranslation();
 
   return (
@@ -44,12 +46,34 @@ const LifeStatsCard = ({ health, happiness, relationships }: LifeStatsCardProps)
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Smile className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm">{t('game.happiness')}</span>
+              <Briefcase className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">{t('game.career')}</span>
             </div>
-            <span className={`text-sm font-bold ${getTextColor(happiness)}`}>{happiness}%</span>
+            <span className={`text-sm font-bold ${getTextColor(career)}`}>{career}%</span>
           </div>
-          <Progress value={happiness} className="h-2" indicatorClassName={getValueColor(happiness)} />
+          <Progress value={career} className="h-2" indicatorClassName={getValueColor(career)} />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <GraduationCap className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">{t('game.education_level')}</span>
+            </div>
+            <span className={`text-sm font-bold ${getTextColor(education_level)}`}>{education_level}%</span>
+          </div>
+          <Progress value={education_level} className="h-2" indicatorClassName={getValueColor(education_level)} />
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Gamepad2 className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">{t('game.entertainment')}</span>
+            </div>
+            <span className={`text-sm font-bold ${getTextColor(entertainment)}`}>{entertainment}%</span>
+          </div>
+          <Progress value={entertainment} className="h-2" indicatorClassName={getValueColor(entertainment)} />
         </div>
 
         <div className="space-y-2">

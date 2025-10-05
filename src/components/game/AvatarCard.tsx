@@ -10,18 +10,44 @@ interface AvatarCardProps {
   nickname?: string;
   age: number;
   health?: number;
-  happiness?: number;
+  career?: number;
+  education_level?: number;
+  entertainment?: number;
+  relationships?: number;
   userId?: string;
 }
 
-const AvatarCard = ({ avatarUrl, nickname, age, health, happiness, userId }: AvatarCardProps) => {
+const AvatarCard = ({ 
+  avatarUrl, 
+  nickname, 
+  age, 
+  health, 
+  career,
+  education_level,
+  entertainment,
+  relationships,
+  userId 
+}: AvatarCardProps) => {
   const { t } = useTranslation();
   const [displayAvatar, setDisplayAvatar] = useState<string | null>(avatarUrl || null);
 
   useEffect(() => {
     const loadAvatar = async () => {
-      if (userId && health !== undefined && happiness !== undefined) {
-        const dynamicAvatar = await getAvatarForState(userId, age, health, happiness);
+      if (userId && 
+          health !== undefined && 
+          career !== undefined && 
+          education_level !== undefined &&
+          entertainment !== undefined &&
+          relationships !== undefined) {
+        const dynamicAvatar = await getAvatarForState(
+          userId, 
+          age, 
+          health, 
+          career,
+          education_level,
+          entertainment,
+          relationships
+        );
         if (dynamicAvatar) {
           setDisplayAvatar(dynamicAvatar);
           return;
@@ -32,7 +58,7 @@ const AvatarCard = ({ avatarUrl, nickname, age, health, happiness, userId }: Ava
     };
 
     loadAvatar();
-  }, [userId, age, health, happiness, avatarUrl]);
+  }, [userId, age, health, career, education_level, entertainment, relationships, avatarUrl]);
 
   return (
     <Card className="h-full">

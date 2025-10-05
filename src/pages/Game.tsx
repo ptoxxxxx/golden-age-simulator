@@ -286,7 +286,9 @@ const Game = () => {
           age: newState.age,
           education: newState.education,
           health: newState.health,
-          happiness: newState.happiness,
+          career: newState.career,
+          education_level: newState.education_level,
+          entertainment: newState.entertainment,
           relationships: newState.relationships,
           saldo: newState.saldo,
           zus_account: newState.zus_account,
@@ -361,12 +363,17 @@ const Game = () => {
             nickname={userProfile?.nickname}
             age={currentState.age}
             health={currentState.health}
-            happiness={currentState.happiness}
+            career={currentState.career}
+            education_level={currentState.education_level}
+            entertainment={currentState.entertainment}
+            relationships={currentState.relationships}
             userId={userProfile?.id}
           />
           <LifeStatsCard
             health={currentState.health}
-            happiness={currentState.happiness}
+            career={currentState.career}
+            education_level={currentState.education_level}
+            entertainment={currentState.entertainment}
             relationships={currentState.relationships}
           />
           <FinancialStatsCard
