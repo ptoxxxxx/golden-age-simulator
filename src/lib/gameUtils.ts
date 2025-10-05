@@ -1,5 +1,5 @@
 export const INITIAL_PLAYER_STATE = {
-  age: 18,
+  age: 20,
   education: "high_school",
   health: 80,
   happiness: 70,
