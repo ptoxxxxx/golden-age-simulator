@@ -194,6 +194,31 @@ const Game = () => {
     }
   };
 
+  const handleRetirementAgeChange = async (newAge: number) => {
+    if (!currentState || !gameId) return;
+
+    try {
+      // Update current state in database
+      const { error } = await supabase
+        .from("player_states")
+        .update({ planned_retirement_age: newAge })
+        .eq("game_id", gameId)
+        .eq("turn_number", currentState.turn_number);
+
+      if (error) throw error;
+
+      // Update local state
+      setCurrentState({ ...currentState, planned_retirement_age: newAge });
+    } catch (error: any) {
+      console.error("Error updating retirement age:", error);
+      toast({
+        title: t('common.error'),
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleNextTurn = async () => {
     if (!currentState || !gameId || !selectedOption) return;
 
@@ -316,6 +341,7 @@ const Game = () => {
             private_investments={currentState.private_investments}
             planned_retirement_age={currentState.planned_retirement_age || 67}
             estimated_pension={currentState.estimated_pension || 0}
+            onRetirementAgeChange={handleRetirementAgeChange}
           />
         </div>
 

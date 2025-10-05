@@ -99,6 +99,8 @@
     "planned_retirement_age": "Planowany wiek przejścia na emeryturę",
     "estimated_pension": "Szacowana emerytura",
     "years": "lat",
+    "min_retirement_age": "Minimalny wiek emerytalny to",
+    "max_retirement_age": "Maksymalny wiek emerytalny to",
     "life_parameters": "Parametry życia",
     "financial_parameters": "Parametry finansowe",
     "player": "Gracz",

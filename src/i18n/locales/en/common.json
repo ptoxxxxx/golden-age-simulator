@@ -99,6 +99,8 @@
     "planned_retirement_age": "Planned Retirement Age",
     "estimated_pension": "Estimated Pension",
     "years": "years",
+    "min_retirement_age": "Minimum retirement age is",
+    "max_retirement_age": "Maximum retirement age is",
     "life_parameters": "Life Parameters",
     "financial_parameters": "Financial Parameters",
     "player": "Player",
