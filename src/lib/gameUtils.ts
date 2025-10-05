@@ -42,16 +42,29 @@ export const applyEffects = (
 };
 
 export const TEMPO_PROFILES = {
-  realistic: { ageIncrement: 1, label: "Realistic (1 year/turn)" },
-  fast: { ageIncrement: 2, label: "Fast (2 years/turn)" },
-  custom: { ageIncrement: 1, label: "Custom" },
+  realistic: { label: "Realistic (dynamic aging)" },
+  fast: { ageIncrement: 5, label: "Fast (5 years/turn)" },
+  custom: { label: "Custom" },
 };
 
-export const calculateAgeIncrement = (tempoProfile: string, customConfig?: any): number => {
+export const calculateAgeIncrement = (tempoProfile: string, currentAge: number, customConfig?: any): number => {
   if (tempoProfile === "custom" && customConfig?.ageIncrement) {
     return customConfig.ageIncrement;
   }
-  return TEMPO_PROFILES[tempoProfile as keyof typeof TEMPO_PROFILES]?.ageIncrement || 1;
+  
+  if (tempoProfile === "realistic") {
+    // Dynamic aging based on current age
+    if (currentAge < 30) return 2;
+    if (currentAge < 50) return 3;
+    return 5;
+  }
+  
+  // For fast mode
+  if (tempoProfile === "fast") {
+    return 5;
+  }
+  
+  return 2; // Default fallback
 };
 
 export const isGameOver = (age: number): boolean => {

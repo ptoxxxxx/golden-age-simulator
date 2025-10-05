@@ -179,7 +179,7 @@ const Game = () => {
     setProcessing(true);
     try {
       // Calculate new state
-      const ageIncrement = calculateAgeIncrement(tempoProfile, tempoCustomConfig);
+      const ageIncrement = calculateAgeIncrement(tempoProfile, currentState.age, tempoCustomConfig);
       const newAge = currentState.age + ageIncrement;
       
       const newState = {

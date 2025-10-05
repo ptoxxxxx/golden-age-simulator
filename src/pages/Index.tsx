@@ -22,6 +22,26 @@ const Index = () => {
     setLoading(true);
 
     try {
+      // Validate form data
+      const validationResult = await import("@/lib/onboardingSchemas").then(m => 
+        m.onboardingSchema.safeParseAsync({
+          nickname,
+          tempoProfile,
+          avatar,
+        })
+      );
+
+      if (!validationResult.success) {
+        const firstError = validationResult.error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       // Check if user is authenticated
       const { data: { user } } = await supabase.auth.getUser();
       
