@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Play, Trophy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "@/hooks/use-toast";
+import { isGameOver } from "@/lib/gameUtils";
 
 interface Game {
   id: string;
@@ -53,7 +54,7 @@ const GameHub = () => {
 
       if (error) throw error;
 
-      // Fetch latest player state for each game
+      // Fetch latest player state for each game and check if finished
       const gamesWithState = await Promise.all(
         (gamesData || []).map(async (game) => {
           const { data: stateData } = await supabase
@@ -64,8 +65,20 @@ const GameHub = () => {
             .limit(1)
             .maybeSingle();
 
+          // Check if game should be marked as finished
+          let finalStatus = game.status;
+          if (stateData && game.status === "active" && isGameOver(stateData.age)) {
+            // Update game status to finished if it reached the end
+            await supabase
+              .from("games")
+              .update({ status: "finished", finished_at: new Date().toISOString() })
+              .eq("id", game.id);
+            finalStatus = "finished";
+          }
+
           return {
             ...game,
+            status: finalStatus,
             player_state: stateData || undefined,
           };
         })
