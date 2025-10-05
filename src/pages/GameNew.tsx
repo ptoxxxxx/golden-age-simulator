@@ -42,7 +42,8 @@ const GameNew = () => {
         .maybeSingle();
 
       if (userData?.preferred_initial_state && typeof userData.preferred_initial_state === 'object') {
-        setInitialState({ ...INITIAL_PLAYER_STATE, ...(userData.preferred_initial_state as Record<string, any>) });
+        const { happiness, ...stateWithoutHappiness } = userData.preferred_initial_state as any;
+        setInitialState({ ...INITIAL_PLAYER_STATE, ...stateWithoutHappiness });
       }
     } catch (error) {
       console.error("Error loading preferred state:", error);
@@ -90,13 +91,14 @@ const GameNew = () => {
 
       if (gameError) throw gameError;
 
-      // Create initial player state
+      // Create initial player state (filter out any old happiness property)
+      const { happiness, ...stateWithoutHappiness } = initialState as any;
       const { error: stateError } = await supabase
         .from("player_states")
         .insert({
           game_id: game.id,
           turn_number: 0,
-          ...initialState,
+          ...stateWithoutHappiness,
         });
 
       if (stateError) throw stateError;
