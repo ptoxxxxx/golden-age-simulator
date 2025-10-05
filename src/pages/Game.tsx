@@ -11,7 +11,7 @@ import { applyEffects, calculateAgeIncrement, isGameOver } from "@/lib/gameUtils
 import { ArrowRight, BarChart3 } from "lucide-react";
 
 const Game = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -152,7 +152,12 @@ const Game = () => {
       if (!option) return;
 
       setSelectedOption(option);
-      setCoachComment(option.ai_coach_comment);
+      
+      // Use Polish comment if language is Polish and Polish comment exists
+      const displayComment = i18n.language === 'pl' && option.ai_coach_comment_pl 
+        ? option.ai_coach_comment_pl 
+        : option.ai_coach_comment;
+      setCoachComment(displayComment);
 
       // Save player choice
       await supabase.from("player_choices").insert({
@@ -294,6 +299,7 @@ const Game = () => {
               options={options}
               onSelectOption={handleSelectOption}
               disabled={!!selectedOption || processing}
+              language={i18n.language}
             />
 
             {coachComment && (

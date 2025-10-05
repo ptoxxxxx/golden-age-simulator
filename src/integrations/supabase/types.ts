@@ -173,26 +173,32 @@ export type Database = {
       scenario_options: {
         Row: {
           ai_coach_comment: string | null
+          ai_coach_comment_pl: string | null
           effects: Json | null
           id: number
           next_scenario_id: number | null
           option_text: string
+          option_text_pl: string | null
           scenario_id: number
         }
         Insert: {
           ai_coach_comment?: string | null
+          ai_coach_comment_pl?: string | null
           effects?: Json | null
           id?: number
           next_scenario_id?: number | null
           option_text: string
+          option_text_pl?: string | null
           scenario_id: number
         }
         Update: {
           ai_coach_comment?: string | null
+          ai_coach_comment_pl?: string | null
           effects?: Json | null
           id?: number
           next_scenario_id?: number | null
           option_text?: string
+          option_text_pl?: string | null
           scenario_id?: number
         }
         Relationships: [
@@ -208,6 +214,7 @@ export type Database = {
       scenarios: {
         Row: {
           area: string | null
+          area_pl: string | null
           created_at: string | null
           id: number
           max_age: number | null
@@ -217,10 +224,12 @@ export type Database = {
           mode: string | null
           other_conditions: Json | null
           story_prompt: string
+          story_prompt_pl: string | null
           tags: string[] | null
         }
         Insert: {
           area?: string | null
+          area_pl?: string | null
           created_at?: string | null
           id?: number
           max_age?: number | null
@@ -230,10 +239,12 @@ export type Database = {
           mode?: string | null
           other_conditions?: Json | null
           story_prompt: string
+          story_prompt_pl?: string | null
           tags?: string[] | null
         }
         Update: {
           area?: string | null
+          area_pl?: string | null
           created_at?: string | null
           id?: number
           max_age?: number | null
@@ -243,6 +254,7 @@ export type Database = {
           mode?: string | null
           other_conditions?: Json | null
           story_prompt?: string
+          story_prompt_pl?: string | null
           tags?: string[] | null
         }
         Relationships: []
