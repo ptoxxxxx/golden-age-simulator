@@ -228,6 +228,9 @@ const Game = () => {
           savings: newState.savings,
           insurance_status: newState.insurance_status,
           risk_level: newState.risk_level,
+          salary: newState.salary || 0,
+          planned_retirement_age: newState.planned_retirement_age || 67,
+          estimated_pension: newState.estimated_pension || 0,
         });
 
       if (insertError) throw insertError;
@@ -306,10 +309,13 @@ const Game = () => {
             relationships={currentState.relationships}
           />
           <FinancialStatsCard
+            salary={currentState.salary || 0}
+            zus_contributions={currentState.zus_contributions || 0}
             saldo={currentState.saldo}
             savings={currentState.savings}
-            zus_account={currentState.zus_account}
             private_investments={currentState.private_investments}
+            planned_retirement_age={currentState.planned_retirement_age || 67}
+            estimated_pension={currentState.estimated_pension || 0}
           />
         </div>
 

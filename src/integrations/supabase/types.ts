@@ -107,14 +107,17 @@ export type Database = {
           age: number
           created_at: string | null
           education: string | null
+          estimated_pension: number | null
           game_id: string
           happiness: number | null
           health: number | null
           id: number
           insurance_status: string | null
+          planned_retirement_age: number | null
           private_investments: number | null
           relationships: number | null
           risk_level: number | null
+          salary: number | null
           saldo: number | null
           savings: number | null
           turn_number: number
@@ -126,14 +129,17 @@ export type Database = {
           age: number
           created_at?: string | null
           education?: string | null
+          estimated_pension?: number | null
           game_id: string
           happiness?: number | null
           health?: number | null
           id?: number
           insurance_status?: string | null
+          planned_retirement_age?: number | null
           private_investments?: number | null
           relationships?: number | null
           risk_level?: number | null
+          salary?: number | null
           saldo?: number | null
           savings?: number | null
           turn_number: number
@@ -145,14 +151,17 @@ export type Database = {
           age?: number
           created_at?: string | null
           education?: string | null
+          estimated_pension?: number | null
           game_id?: string
           happiness?: number | null
           health?: number | null
           id?: number
           insurance_status?: string | null
+          planned_retirement_age?: number | null
           private_investments?: number | null
           relationships?: number | null
           risk_level?: number | null
+          salary?: number | null
           saldo?: number | null
           savings?: number | null
           turn_number?: number
