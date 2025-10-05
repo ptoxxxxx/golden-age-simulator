@@ -36,7 +36,18 @@ const Auth = () => {
         }
       }
     };
+    
+    // Initial check
     checkAuth();
+    
+    // Listen for auth state changes (like signup)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        checkAuth();
+      }
+    });
+    
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   const handleModeChange = (newMode: AuthMode) => {
