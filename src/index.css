@@ -16,6 +16,7 @@ All colors MUST be HSL.
     --popover-foreground: 221 27% 24%;
     --primary: 152 100% 24%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 152 100% 34%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 221 27% 24%;
     --muted: 210 40% 96%;
@@ -32,7 +33,21 @@ All colors MUST be HSL.
     --chart-3: 210 40% 96%;
     --chart-4: 220 9% 46%;
     --chart-5: 0 84.2% 60.2%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+    
+    /* Modern shadows */
+    --shadow-subtle: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-sm: 0 2px 4px -1px hsl(0 0% 0% / 0.06), 0 2px 4px -1px hsl(0 0% 0% / 0.03);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.08), 0 2px 4px -2px hsl(0 0% 0% / 0.05);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.05);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 8px 10px -6px hsl(0 0% 0% / 0.05);
+    --shadow-glow: 0 0 20px hsl(var(--primary-glow) / 0.15);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    
+    /* Sidebar */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -51,6 +66,7 @@ All colors MUST be HSL.
     --popover-foreground: 0 0% 98%;
     --primary: 152 100% 24%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 152 100% 34%;
     --secondary: 221 27% 24%;
     --secondary-foreground: 0 0% 98%;
     --muted: 221 27% 24%;
@@ -67,6 +83,20 @@ All colors MUST be HSL.
     --chart-3: 221 27% 44%;
     --chart-4: 220 9% 66%;
     --chart-5: 0 84.2% 70.2%;
+    
+    /* Modern shadows for dark mode */
+    --shadow-subtle: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+    --shadow-sm: 0 2px 4px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(0 0% 0% / 0.2);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.5), 0 2px 4px -2px hsl(0 0% 0% / 0.3);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.6), 0 4px 6px -4px hsl(0 0% 0% / 0.4);
+    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.7), 0 8px 10px -6px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 20px hsl(var(--primary-glow) / 0.25);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-subtle: linear-gradient(180deg, hsl(221 27% 18%), hsl(221 27% 14%));
+    
+    /* Sidebar */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -86,5 +116,49 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer utilities {
+  /* Modern shadow utilities */
+  .shadow-subtle {
+    box-shadow: var(--shadow-subtle);
+  }
+  .shadow-modern-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  .shadow-modern-md {
+    box-shadow: var(--shadow-md);
+  }
+  .shadow-modern-lg {
+    box-shadow: var(--shadow-lg);
+  }
+  .shadow-modern-xl {
+    box-shadow: var(--shadow-xl);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Gradient utilities */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  .bg-gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+  
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Interactive hover effects */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
 }
