@@ -31,14 +31,14 @@
 - [x] Protected routes for game, dashboard, summary
 - [x] Logout functionality
 
-#### Pętla gry (core gameplay)
-- [ ] Pobierz aktualny player_state (ostatni turn)
-- [ ] Oblicz inkrement wieku wg profilu tempa
-- [ ] Dobierz scenariusz (filtry, równoważenie kategorii, fallback najbliższy wiekowo)
-- [ ] Wyświetl ScenarioCard (story_prompt EN, PL placeholder), opcje wyboru
-- [ ] Po wyborze: zapisz player_choices + efekty, przelicz nowy state, wstaw do player_states
-- [ ] Pokaż AI coach comment (z opcji)
-- [ ] Przycisk Next Turn lub Go to Summary (jeśli warunki końcowe)
+#### Pętla gry (core gameplay) ✅
+- [x] Pobierz aktualny player_state (ostatni turn)
+- [x] Oblicz inkrement wieku wg profilu tempa
+- [x] Dobierz scenariusz (filtry, równoważenie kategorii, fallback najbliższy wiekowo)
+- [x] Wyświetl ScenarioCard (story_prompt EN, PL placeholder), opcje wyboru
+- [x] Po wyborze: zapisz player_choices + efekty, przelicz nowy state, wstaw do player_states
+- [x] Pokaż AI coach comment (z opcji)
+- [x] Przycisk Next Turn lub Go to Summary (jeśli warunki końcowe)
 
 #### Dashboard i summary
 - [ ] Dashboard: wykresy (saldo, savings, private_investments, zus_account, health, happiness, relationships vs turn)
