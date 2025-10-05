@@ -32,6 +32,7 @@ const Game = () => {
   const [tempoProfile, setTempoProfile] = useState<string>("realistic");
   const [tempoCustomConfig, setTempoCustomConfig] = useState<any>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
+  const [showCoachComments, setShowCoachComments] = useState<boolean>(true);
 
   useEffect(() => {
     loadGame();
@@ -187,7 +188,11 @@ const Game = () => {
         ? option.ai_coach_comment_pl 
         : option.ai_coach_comment;
       setCoachComment(displayComment);
-      setCoachDialogOpen(true);
+      
+      // Show coach dialog only if enabled
+      if (showCoachComments) {
+        setCoachDialogOpen(true);
+      }
 
       // Save player choice
       await supabase.from("player_choices").insert({
@@ -198,6 +203,9 @@ const Game = () => {
         option_id: selectedOptionId,
         effects: option.effects,
       });
+
+      // Immediately advance to next turn
+      await advanceToNextTurn(option);
     } catch (error: any) {
       console.error("Error saving choice:", error);
       toast({
@@ -205,7 +213,6 @@ const Game = () => {
         description: t('game.save_choice_error'),
         variant: "destructive",
       });
-    } finally {
       setProcessing(false);
     }
   };
@@ -235,17 +242,16 @@ const Game = () => {
     }
   };
 
-  const handleNextTurn = async () => {
-    if (!currentState || !gameId || !confirmedOption) return;
+  const advanceToNextTurn = async (option: any) => {
+    if (!currentState || !gameId) return;
 
-    setProcessing(true);
     try {
       // Calculate new state
       const ageIncrement = calculateAgeIncrement(tempoProfile, currentState.age, tempoCustomConfig);
       const newAge = currentState.age + ageIncrement;
       
       const newState = {
-        ...applyEffects(currentState, confirmedOption.effects || {}),
+        ...applyEffects(currentState, option.effects || {}),
         age: newAge,
         turn_number: currentState.turn_number + 1,
       };
@@ -367,6 +373,8 @@ const Game = () => {
             onAdvisoryClick={handleAdvisoryClick}
             disabled={!!confirmedOption || processing}
             language={i18n.language}
+            showCoachComments={showCoachComments}
+            onToggleCoachComments={setShowCoachComments}
           />
         </div>
 
@@ -378,26 +386,12 @@ const Game = () => {
         />
 
         {/* Coach Comment Dialog (after choice) */}
-        {coachComment && (
+        {coachComment && showCoachComments && (
           <CoachComment 
             comment={coachComment} 
             open={coachDialogOpen}
             onOpenChange={setCoachDialogOpen}
           />
-        )}
-
-        {confirmedOption && (
-          <div className="flex justify-end">
-            <Button
-              onClick={handleNextTurn}
-              disabled={processing}
-              size="lg"
-              className="bg-[#007834] hover:bg-[#006329] gap-2"
-            >
-              {processing ? t('game.processing') : t('game.next_turn')}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
         )}
       </div>
     </div>

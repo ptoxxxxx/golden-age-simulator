@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Lightbulb, Check } from "lucide-react";
 
 interface ScenarioOption {
@@ -28,6 +30,8 @@ interface ScenarioCardProps {
   onAdvisoryClick: (optionId: number, effects: Record<string, number>) => void;
   disabled?: boolean;
   language?: string;
+  showCoachComments: boolean;
+  onToggleCoachComments: (value: boolean) => void;
 }
 
 const ScenarioCard = ({ 
@@ -38,7 +42,9 @@ const ScenarioCard = ({
   onConfirmOption,
   onAdvisoryClick,
   disabled, 
-  language = 'en' 
+  language = 'en',
+  showCoachComments,
+  onToggleCoachComments
 }: ScenarioCardProps) => {
   const { t } = useTranslation();
   const isPolish = language === 'pl';
@@ -48,9 +54,22 @@ const ScenarioCard = ({
   return (
     <Card className="animate-fade-in shadow-modern-lg hover-lift border-0 bg-gradient-subtle overflow-hidden">
       <CardHeader className="space-y-6 pb-4">
-        <CardTitle className="text-3xl font-bold text-foreground leading-tight">
-          {displayPrompt}
-        </CardTitle>
+        <div className="flex items-start justify-between gap-4">
+          <CardTitle className="text-3xl font-bold text-foreground leading-tight flex-1">
+            {displayPrompt}
+          </CardTitle>
+          <div className="flex items-center gap-2 pt-1">
+            <Label htmlFor="coach-toggle" className="text-sm text-muted-foreground cursor-pointer">
+              {t('game.coach_advisor')}
+            </Label>
+            <Switch
+              id="coach-toggle"
+              checked={showCoachComments}
+              onCheckedChange={onToggleCoachComments}
+              disabled={disabled}
+            />
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center gap-2 pt-2">

@@ -140,7 +140,8 @@
     "learn_more": "Dowiedz się więcej",
     "confirm_choice": "Zatwierdź wybór",
     "advisory_title": "Wpływ decyzji",
-    "advisory_description": "Ta decyzja może mieć następujące efekty:"
+    "advisory_description": "Ta decyzja może mieć następujące efekty:",
+    "coach_advisor": "Doradca AI"
   },
   "dashboard": {
     "title": "Panel",
