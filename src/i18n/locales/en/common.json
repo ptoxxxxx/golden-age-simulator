@@ -75,7 +75,7 @@
     "tempo_realistic": "Realistic",
     "tempo_realistic_desc": "Age 1 year per turn, realistic life progression",
     "tempo_fast": "Fast",
-    "tempo_fast_desc": "Age 2-3 years per turn, quicker gameplay",
+    "tempo_fast_desc": "Age 2 years per turn (5 years after age 45)",
     "tempo_custom": "Custom",
     "tempo_custom_desc": "Configure your own tempo",
     "avatar_label": "Character Avatar (Optional)",
