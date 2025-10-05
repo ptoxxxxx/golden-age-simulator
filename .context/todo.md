@@ -24,8 +24,8 @@
 - [x] Dodaj placeholdery stron (każda ścieżka renderuje prosty tekst)
 
 #### Auth i onboarding
-- [ ] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja)
-- [ ] Onboarding (/) – formularz: imię postaci (opcjonalne), avatar upload (walidacja, upload do Storage), wybór profilu tempa gry (Realistic/Fast/Custom), start game (utwórz rekord games, player_states turn 0)
+- [ ] Zaimplementuj strony sign-in/sign-up/reset hasła (Supabase, Zod walidacja) - IN PROGRESS
+- [x] Onboarding (/) – formularz: imię postaci (opcjonalne), avatar upload (walidacja, upload do Storage), wybór profilu tempa gry (Realistic/Fast/Custom), start game (utwórz rekord games, player_states turn 0)
 - [ ] Walidacja Zod dla wszystkich pól formularzy
 
 #### Pętla gry (core gameplay)
