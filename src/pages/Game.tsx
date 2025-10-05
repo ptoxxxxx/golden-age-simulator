@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import PlayerStats from "@/components/game/PlayerStats";
+import AvatarCard from "@/components/game/AvatarCard";
+import LifeStatsCard from "@/components/game/LifeStatsCard";
+import FinancialStatsCard from "@/components/game/FinancialStatsCard";
 import ScenarioCard from "@/components/game/ScenarioCard";
 import CoachComment from "@/components/game/CoachComment";
 import { applyEffects, calculateAgeIncrement, isGameOver } from "@/lib/gameUtils";
@@ -291,66 +293,57 @@ const Game = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1 space-y-4">
-            {userProfile && (
-              <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                <div className="flex flex-col items-center gap-4">
-                  {userProfile.avatar_url && (
-                    <img 
-                      src={userProfile.avatar_url} 
-                      alt={userProfile.nickname || t('game.player')}
-                      className="w-24 h-24 rounded-full object-cover border-4 border-[#007834]"
-                    />
-                  )}
-                  {userProfile.nickname && (
-                    <h2 className="text-xl font-semibold text-[#283754]">
-                      {userProfile.nickname}
-                    </h2>
-                  )}
-                </div>
-              </div>
-            )}
-            <PlayerStats
-              age={currentState.age}
-              health={currentState.health}
-              happiness={currentState.happiness}
-              relationships={currentState.relationships}
-              saldo={currentState.saldo}
-              savings={currentState.savings}
-              zus_account={currentState.zus_account}
-              private_investments={currentState.private_investments}
-            />
-          </div>
-
-          <div className="lg:col-span-2 space-y-4">
-            <ScenarioCard
-              scenario={scenario}
-              options={options}
-              onSelectOption={handleSelectOption}
-              disabled={!!selectedOption || processing}
-              language={i18n.language}
-            />
-
-            {coachComment && (
-              <CoachComment comment={coachComment} />
-            )}
-
-            {selectedOption && (
-              <div className="flex justify-end">
-                <Button
-                  onClick={handleNextTurn}
-                  disabled={processing}
-                  size="lg"
-                  className="bg-[#007834] hover:bg-[#006329] gap-2"
-                >
-                  {processing ? t('game.processing') : t('game.next_turn')}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            )}
-          </div>
+        {/* Top row: Avatar, Life Stats, Financial Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <AvatarCard
+            avatarUrl={userProfile?.avatar_url}
+            nickname={userProfile?.nickname}
+            age={currentState.age}
+          />
+          <LifeStatsCard
+            health={currentState.health}
+            happiness={currentState.happiness}
+            relationships={currentState.relationships}
+          />
+          <FinancialStatsCard
+            saldo={currentState.saldo}
+            savings={currentState.savings}
+            zus_account={currentState.zus_account}
+            private_investments={currentState.private_investments}
+          />
         </div>
+
+        {/* Middle: Scenario Card */}
+        <div className="mb-6">
+          <ScenarioCard
+            scenario={scenario}
+            options={options}
+            onSelectOption={handleSelectOption}
+            disabled={!!selectedOption || processing}
+            language={i18n.language}
+          />
+        </div>
+
+        {/* Bottom: Coach Comment and Next Turn Button */}
+        {coachComment && (
+          <div className="mb-6">
+            <CoachComment comment={coachComment} />
+          </div>
+        )}
+
+        {selectedOption && (
+          <div className="flex justify-end">
+            <Button
+              onClick={handleNextTurn}
+              disabled={processing}
+              size="lg"
+              className="bg-[#007834] hover:bg-[#006329] gap-2"
+            >
+              {processing ? t('game.processing') : t('game.next_turn')}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
