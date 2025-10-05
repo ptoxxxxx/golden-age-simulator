@@ -10,12 +10,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { ArrowLeft, TrendingUp, DollarSign } from "lucide-react";
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [gameData, setGameData] = useState<any>(null);
   const [playerStates, setPlayerStates] = useState<any[]>([]);
   const [choices, setChoices] = useState<any[]>([]);
+  const isPolish = i18n.language === 'pl';
 
   useEffect(() => {
     loadDashboard();
@@ -61,13 +62,13 @@ const Dashboard = () => {
       if (statesError) throw statesError;
       setPlayerStates(states || []);
 
-      // Get player choices with scenario info
+      // Get player choices with scenario info (including Polish translations)
       const { data: choicesData, error: choicesError } = await supabase
         .from("player_choices")
         .select(`
           *,
-          scenarios (story_prompt, area),
-          scenario_options (option_text)
+          scenarios (story_prompt, story_prompt_pl, area, area_pl),
+          scenario_options (option_text, option_text_pl)
         `)
         .eq("game_id", game.id)
         .order("turn_number", { ascending: true });
@@ -145,7 +146,7 @@ const Dashboard = () => {
 
           <TabsContent value="charts" className="space-y-6">
             {/* Financial Chart */}
-            <Card className="animate-fade-in">
+            <Card className="animate-fade-in shadow-modern-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-[#007834]" />
@@ -157,21 +158,21 @@ const Dashboard = () => {
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={financialData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="age" label={{ value: 'Age', position: 'insideBottom', offset: -5 }} />
+                    <XAxis dataKey="age" label={{ value: t('game.age'), position: 'insideBottom', offset: -5 }} />
                     <YAxis />
                     <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                     <Legend />
-                    <Line type="monotone" dataKey="balance" stroke="#007834" name="Balance" />
-                    <Line type="monotone" dataKey="savings" stroke="#0088FE" name="Savings" />
-                    <Line type="monotone" dataKey="zus" stroke="#00C49F" name="ZUS" />
-                    <Line type="monotone" dataKey="investments" stroke="#FFBB28" name="Investments" />
+                    <Line type="monotone" dataKey="balance" stroke="#007834" name={t('game.balance')} />
+                    <Line type="monotone" dataKey="savings" stroke="#0088FE" name={t('game.savings')} />
+                    <Line type="monotone" dataKey="zus" stroke="#00C49F" name={t('game.zus_account')} />
+                    <Line type="monotone" dataKey="investments" stroke="#FFBB28" name={t('game.investments')} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
 
             {/* Wellbeing Chart */}
-            <Card className="animate-fade-in">
+            <Card className="animate-fade-in shadow-modern-md">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-[#007834]" />
@@ -183,13 +184,13 @@ const Dashboard = () => {
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={wellbeingData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="age" label={{ value: 'Age', position: 'insideBottom', offset: -5 }} />
+                    <XAxis dataKey="age" label={{ value: t('game.age'), position: 'insideBottom', offset: -5 }} />
                     <YAxis domain={[0, 100]} />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="health" stroke="#EF4444" name="Health" />
-                    <Line type="monotone" dataKey="happiness" stroke="#F59E0B" name="Happiness" />
-                    <Line type="monotone" dataKey="relationships" stroke="#3B82F6" name="Relationships" />
+                    <Line type="monotone" dataKey="health" stroke="#EF4444" name={t('game.health')} />
+                    <Line type="monotone" dataKey="happiness" stroke="#F59E0B" name={t('game.happiness')} />
+                    <Line type="monotone" dataKey="relationships" stroke="#3B82F6" name={t('game.relationships')} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -197,7 +198,7 @@ const Dashboard = () => {
           </TabsContent>
 
           <TabsContent value="timeline" className="space-y-4">
-            <Card className="animate-fade-in">
+            <Card className="animate-fade-in shadow-modern-md">
               <CardHeader>
                 <CardTitle>{t('dashboard.decision_timeline')}</CardTitle>
                 <CardDescription>{t('dashboard.review_choices')}</CardDescription>
@@ -207,45 +208,59 @@ const Dashboard = () => {
                   <p className="text-center text-muted-foreground py-8">{t('dashboard.no_decisions')}</p>
                 ) : (
                   <div className="space-y-4">
-                    {choices.map((choice, index) => (
-                      <div
-                        key={choice.id}
-                        className="border-l-4 border-[#007834] pl-4 py-3 hover:bg-accent/50 transition-colors"
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <span className="text-sm font-medium text-[#283754]">
-                              Turn {choice.turn_number}
-                            </span>
-                            {choice.scenarios?.area && (
-                              <span className="ml-2 text-xs text-muted-foreground">
-                                • {choice.scenarios.area}
+                    {choices.map((choice, index) => {
+                      const displayArea = isPolish && choice.scenarios?.area_pl 
+                        ? choice.scenarios.area_pl 
+                        : choice.scenarios?.area;
+                      const displayPrompt = isPolish && choice.scenarios?.story_prompt_pl 
+                        ? choice.scenarios.story_prompt_pl 
+                        : choice.scenarios?.story_prompt;
+                      const displayOption = isPolish && choice.scenario_options?.option_text_pl 
+                        ? choice.scenario_options.option_text_pl 
+                        : choice.scenario_options?.option_text;
+
+                      return (
+                        <div
+                          key={choice.id}
+                          className="border-l-4 border-primary pl-4 py-3 hover:bg-accent/50 transition-smooth rounded-r-lg"
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <span className="text-sm font-medium text-foreground">
+                                {t('game.turn_label')} {choice.turn_number}
                               </span>
-                            )}
+                              {displayArea && (
+                                <span className="ml-2 text-xs text-muted-foreground">
+                                  • {displayArea}
+                                </span>
+                              )}
+                            </div>
                           </div>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            {displayPrompt}
+                          </p>
+                          <p className="text-sm font-medium text-primary">
+                            → {displayOption}
+                          </p>
+                          {choice.effects && Object.keys(choice.effects).length > 0 && (
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {Object.entries(choice.effects).map(([key, value]: [string, any]) => (
+                                <span
+                                  key={key}
+                                  className={`text-xs px-2 py-1 rounded-full font-medium ${
+                                    value > 0 
+                                      ? 'bg-primary/10 text-primary' 
+                                      : 'bg-destructive/10 text-destructive'
+                                  }`}
+                                >
+                                  {t(`game.${key}`, key)}: {value > 0 ? '+' : ''}{value}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {choice.scenarios?.story_prompt}
-                        </p>
-                        <p className="text-sm font-medium text-[#007834]">
-                          → {choice.scenario_options?.option_text}
-                        </p>
-                        {choice.effects && Object.keys(choice.effects).length > 0 && (
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {Object.entries(choice.effects).map(([key, value]: [string, any]) => (
-                              <span
-                                key={key}
-                                className={`text-xs px-2 py-1 rounded ${
-                                  value > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                }`}
-                              >
-                                {key}: {value > 0 ? '+' : ''}{value}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>

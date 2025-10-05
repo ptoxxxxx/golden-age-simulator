@@ -119,7 +119,8 @@
     "processing": "Processing...",
     "life_decision": "Life Decision",
     "what_will_you_do": "What will you do?",
-    "ai_coach": "AI Coach"
+    "ai_coach": "AI Coach",
+    "turn_label": "Turn"
   },
   "dashboard": {
     "title": "Dashboard",

@@ -119,7 +119,8 @@
     "processing": "Przetwarzanie...",
     "life_decision": "Decyzja życiowa",
     "what_will_you_do": "Co zrobisz?",
-    "ai_coach": "Trener AI"
+    "ai_coach": "Trener AI",
+    "turn_label": "Tura"
   },
   "dashboard": {
     "title": "Panel",
