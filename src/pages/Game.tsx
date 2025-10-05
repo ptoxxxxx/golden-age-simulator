@@ -24,6 +24,7 @@ const Game = () => {
   const [options, setOptions] = useState<any[]>([]);
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const [coachComment, setCoachComment] = useState<string | null>(null);
+  const [coachDialogOpen, setCoachDialogOpen] = useState(false);
   const [tempoProfile, setTempoProfile] = useState<string>("realistic");
   const [tempoCustomConfig, setTempoCustomConfig] = useState<any>(null);
   const [userProfile, setUserProfile] = useState<any>(null);
@@ -173,6 +174,7 @@ const Game = () => {
         ? option.ai_coach_comment_pl 
         : option.ai_coach_comment;
       setCoachComment(displayComment);
+      setCoachDialogOpen(true);
 
       // Save player choice
       await supabase.from("player_choices").insert({
@@ -265,6 +267,7 @@ const Game = () => {
       setCurrentState(newState);
       setSelectedOption(null);
       setCoachComment(null);
+      setCoachDialogOpen(false);
 
       // Check if game is over
       if (isGameOver(newAge)) {
@@ -350,11 +353,13 @@ const Game = () => {
           />
         </div>
 
-        {/* Bottom: Coach Comment and Next Turn Button */}
+        {/* Coach Comment Dialog */}
         {coachComment && (
-          <div className="mb-6">
-            <CoachComment comment={coachComment} />
-          </div>
+          <CoachComment 
+            comment={coachComment} 
+            open={coachDialogOpen}
+            onOpenChange={setCoachDialogOpen}
+          />
         )}
 
         {selectedOption && (

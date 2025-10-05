@@ -1,26 +1,55 @@
 import { useTranslation } from "react-i18next";
-import { Card, CardContent } from "@/components/ui/card";
-import { Lightbulb } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Lightbulb, ExternalLink } from "lucide-react";
 
 interface CoachCommentProps {
   comment: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  learnMoreUrl?: string;
 }
 
-const CoachComment = ({ comment }: CoachCommentProps) => {
+const CoachComment = ({ comment, open, onOpenChange, learnMoreUrl }: CoachCommentProps) => {
   const { t } = useTranslation();
   
+  const handleLearnMore = () => {
+    if (learnMoreUrl) {
+      window.open(learnMoreUrl, '_blank');
+    }
+    // TODO: W przyszłości można dodać nawigację do bazy wiedzy w aplikacji
+  };
+  
   return (
-    <Card className="bg-[#007834]/5 border-[#007834]/20 animate-fade-in">
-      <CardContent className="pt-6">
-        <div className="flex gap-3">
-          <Lightbulb className="h-5 w-5 text-[#007834] flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="text-sm font-medium text-[#283754] mb-1">{t('game.ai_coach')}</p>
-            <p className="text-sm text-muted-foreground">{comment}</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Lightbulb className="h-5 w-5 text-[#007834]" />
+            {t('game.ai_coach')}
+          </DialogTitle>
+          <DialogDescription className="text-base pt-4">
+            {comment}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex-col sm:flex-row gap-2">
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="w-full sm:w-auto"
+          >
+            {t('game.close')}
+          </Button>
+          <Button
+            onClick={handleLearnMore}
+            className="bg-[#007834] hover:bg-[#006329] gap-2 w-full sm:w-auto"
+          >
+            {t('game.learn_more')}
+            <ExternalLink className="h-4 w-4" />
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

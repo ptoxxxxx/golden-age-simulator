@@ -135,7 +135,9 @@
     "life_decision": "Decyzja życiowa",
     "what_will_you_do": "Co zrobisz?",
     "ai_coach": "Trener AI",
-    "turn_label": "Tura"
+    "turn_label": "Tura",
+    "close": "Zamknij",
+    "learn_more": "Dowiedz się więcej"
   },
   "dashboard": {
     "title": "Panel",

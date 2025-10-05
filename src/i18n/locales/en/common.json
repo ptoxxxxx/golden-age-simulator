@@ -135,7 +135,9 @@
     "life_decision": "Life Decision",
     "what_will_you_do": "What will you do?",
     "ai_coach": "AI Coach",
-    "turn_label": "Turn"
+    "turn_label": "Turn",
+    "close": "Close",
+    "learn_more": "Learn More"
   },
   "dashboard": {
     "title": "Dashboard",
