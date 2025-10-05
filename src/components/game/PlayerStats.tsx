@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Heart, Smile, Users, Shield } from "lucide-react";
@@ -23,6 +24,8 @@ const PlayerStats = ({
   zus_account,
   private_investments,
 }: PlayerStatsProps) => {
+  const { t } = useTranslation();
+  
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -36,7 +39,7 @@ const PlayerStats = ({
       <Card className="bg-card/50">
         <CardContent className="pt-6">
           <div className="text-center mb-4">
-            <p className="text-sm text-muted-foreground">Age</p>
+            <p className="text-sm text-muted-foreground">{t('game.age')}</p>
             <p className="text-3xl font-bold text-[#283754]">{age}</p>
           </div>
 
@@ -45,7 +48,7 @@ const PlayerStats = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Heart className="h-4 w-4 text-red-500" />
-                  <span className="text-sm">Health</span>
+                  <span className="text-sm">{t('game.health')}</span>
                 </div>
                 <span className="text-sm font-medium">{health}%</span>
               </div>
@@ -56,7 +59,7 @@ const PlayerStats = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Smile className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm">Happiness</span>
+                  <span className="text-sm">{t('game.happiness')}</span>
                 </div>
                 <span className="text-sm font-medium">{happiness}%</span>
               </div>
@@ -67,7 +70,7 @@ const PlayerStats = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">Relationships</span>
+                  <span className="text-sm">{t('game.relationships')}</span>
                 </div>
                 <span className="text-sm font-medium">{relationships}%</span>
               </div>
@@ -81,19 +84,19 @@ const PlayerStats = ({
         <CardContent className="pt-6">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Balance</span>
+              <span className="text-sm text-muted-foreground">{t('game.balance')}</span>
               <span className="text-lg font-bold text-[#283754]">{formatCurrency(saldo)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Savings</span>
+              <span className="text-sm text-muted-foreground">{t('game.savings')}</span>
               <span className="text-sm font-medium">{formatCurrency(savings)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">ZUS Account</span>
+              <span className="text-sm text-muted-foreground">{t('game.zus_account')}</span>
               <span className="text-sm font-medium">{formatCurrency(zus_account)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Investments</span>
+              <span className="text-sm text-muted-foreground">{t('game.investments')}</span>
               <span className="text-sm font-medium">{formatCurrency(private_investments)}</span>
             </div>
           </div>

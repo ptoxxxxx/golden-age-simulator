@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { Trophy, TrendingUp, Heart, Smile, Users, Wallet, Home } from "lucide-react";
 
 const Summary = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [gameData, setGameData] = useState<any>(null);
@@ -60,8 +62,8 @@ const Summary = () => {
     } catch (error: any) {
       console.error("Error loading summary:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to load summary",
+        title: t('common.error'),
+        description: error.message || t('summary.load_error'),
         variant: "destructive",
       });
     } finally {
@@ -91,11 +93,11 @@ const Summary = () => {
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 90) return { label: "Outstanding", color: "bg-[#007834]" };
-    if (score >= 75) return { label: "Excellent", color: "bg-green-600" };
-    if (score >= 60) return { label: "Good", color: "bg-blue-600" };
-    if (score >= 45) return { label: "Fair", color: "bg-yellow-600" };
-    return { label: "Needs Improvement", color: "bg-red-600" };
+    if (score >= 90) return { label: t('summary.outstanding'), color: "bg-[#007834]" };
+    if (score >= 75) return { label: t('summary.excellent'), color: "bg-green-600" };
+    if (score >= 60) return { label: t('summary.good'), color: "bg-blue-600" };
+    if (score >= 45) return { label: t('summary.fair'), color: "bg-yellow-600" };
+    return { label: t('summary.needs_improvement'), color: "bg-red-600" };
   };
 
   const formatCurrency = (value: number) => {
@@ -109,7 +111,7 @@ const Summary = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA]">
-        <p className="text-muted-foreground">Loading summary...</p>
+        <p className="text-muted-foreground">{t('common.loading')}</p>
       </div>
     );
   }
@@ -119,12 +121,12 @@ const Summary = () => {
       <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA]">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>No Game Data</CardTitle>
-            <CardDescription>Start a new game to see your summary</CardDescription>
+            <CardTitle>{t('summary.no_data')}</CardTitle>
+            <CardDescription>{t('summary.start_new_game')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={handleStartNewGame} className="w-full bg-[#007834] hover:bg-[#006329]">
-              Start New Game
+              {t('summary.start_new_game')}
             </Button>
           </CardContent>
         </Card>
@@ -141,14 +143,14 @@ const Summary = () => {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8 animate-fade-in">
           <Trophy className="h-16 w-16 text-[#007834] mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-[#283754] mb-2">Game Complete!</h1>
-          <p className="text-muted-foreground">You've completed your life journey</p>
+          <h1 className="text-4xl font-bold text-[#283754] mb-2">{t('summary.title')}</h1>
+          <p className="text-muted-foreground">{t('summary.completed')}</p>
         </div>
 
         {/* Overall Score */}
         <Card className="mb-6 animate-fade-in">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl">Overall Score</CardTitle>
+            <CardTitle className="text-2xl">{t('summary.score')}</CardTitle>
             <div className="mt-4">
               <div className="text-6xl font-bold text-[#283754] mb-2">{score}</div>
               <Badge className={`${scoreInfo.color} text-white text-lg px-4 py-1`}>
@@ -164,20 +166,20 @@ const Summary = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-[#007834]" />
-                Life Statistics
+                {t('summary.life_stats')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Final Age</span>
+                <span className="text-sm text-muted-foreground">{t('summary.final_age')}</span>
                 <span className="text-xl font-bold text-[#283754]">{finalState.age}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Total Turns</span>
+                <span className="text-sm text-muted-foreground">{t('summary.total_turns')}</span>
                 <span className="text-xl font-bold text-[#283754]">{totalTurns}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Education</span>
+                <span className="text-sm text-muted-foreground">{t('summary.education')}</span>
                 <span className="text-sm font-medium capitalize">{finalState.education?.replace('_', ' ')}</span>
               </div>
             </CardContent>
@@ -188,28 +190,28 @@ const Summary = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Wallet className="h-5 w-5 text-[#007834]" />
-                Financial Summary
+                {t('summary.financial')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Total Wealth</span>
+                <span className="text-sm text-muted-foreground">{t('summary.total_wealth')}</span>
                 <span className="text-lg font-bold text-[#007834]">{formatCurrency(totalWealth)}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Balance</span>
+                <span className="text-muted-foreground">{t('game.balance')}</span>
                 <span className="font-medium">{formatCurrency(finalState.saldo)}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Savings</span>
+                <span className="text-muted-foreground">{t('game.savings')}</span>
                 <span className="font-medium">{formatCurrency(finalState.savings)}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">ZUS Account</span>
+                <span className="text-muted-foreground">{t('game.zus_account')}</span>
                 <span className="font-medium">{formatCurrency(finalState.zus_account)}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Investments</span>
+                <span className="text-muted-foreground">{t('game.investments')}</span>
                 <span className="font-medium">{formatCurrency(finalState.private_investments)}</span>
               </div>
             </CardContent>
@@ -219,24 +221,24 @@ const Summary = () => {
         {/* Wellbeing Metrics */}
         <Card className="mb-6 animate-fade-in">
           <CardHeader>
-            <CardTitle>Wellbeing Metrics</CardTitle>
+            <CardTitle>{t('summary.wellbeing')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-6 text-center">
               <div>
                 <Heart className="h-8 w-8 text-red-500 mx-auto mb-2" />
                 <div className="text-3xl font-bold text-[#283754]">{finalState.health}%</div>
-                <div className="text-sm text-muted-foreground">Health</div>
+                <div className="text-sm text-muted-foreground">{t('game.health')}</div>
               </div>
               <div>
                 <Smile className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
                 <div className="text-3xl font-bold text-[#283754]">{finalState.happiness}%</div>
-                <div className="text-sm text-muted-foreground">Happiness</div>
+                <div className="text-sm text-muted-foreground">{t('game.happiness')}</div>
               </div>
               <div>
                 <Users className="h-8 w-8 text-blue-500 mx-auto mb-2" />
                 <div className="text-3xl font-bold text-[#283754]">{finalState.relationships}%</div>
-                <div className="text-sm text-muted-foreground">Relationships</div>
+                <div className="text-sm text-muted-foreground">{t('game.relationships')}</div>
               </div>
             </div>
           </CardContent>
@@ -250,7 +252,7 @@ const Summary = () => {
             size="lg"
             className="flex-1"
           >
-            View Dashboard
+            {t('summary.view_dashboard')}
           </Button>
           <Button
             onClick={handleStartNewGame}
@@ -258,7 +260,7 @@ const Summary = () => {
             className="flex-1 bg-[#007834] hover:bg-[#006329] gap-2"
           >
             <Home className="h-4 w-4" />
-            Start New Journey
+            {t('summary.start_new_journey')}
           </Button>
         </div>
       </div>

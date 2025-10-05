@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ interface ResetPasswordFormProps {
 }
 
 const ResetPasswordForm = ({ onSwitchToSignIn }: ResetPasswordFormProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<ResetPasswordFormData>({
     email: "",
@@ -44,8 +46,8 @@ const ResetPasswordForm = ({ onSwitchToSignIn }: ResetPasswordFormProps) => {
       if (error) throw error;
 
       toast({
-        title: "Check your email",
-        description: "We've sent you a password reset link",
+        title: t('auth.check_email'),
+        description: t('auth.reset_link_sent'),
       });
 
       setTimeout(() => {
@@ -53,8 +55,8 @@ const ResetPasswordForm = ({ onSwitchToSignIn }: ResetPasswordFormProps) => {
       }, 2000);
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to send reset email",
+        title: t('common.error'),
+        description: error.message || t('auth.reset_email_error'),
         variant: "destructive",
       });
     } finally {
@@ -65,13 +67,13 @@ const ResetPasswordForm = ({ onSwitchToSignIn }: ResetPasswordFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="reset-email">Email</Label>
+        <Label htmlFor="reset-email">{t('auth.email')}</Label>
         <Input
           id="reset-email"
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ email: e.target.value })}
-          placeholder="your@email.com"
+          placeholder={t('auth.email_placeholder')}
           disabled={loading}
         />
         {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
@@ -82,18 +84,18 @@ const ResetPasswordForm = ({ onSwitchToSignIn }: ResetPasswordFormProps) => {
         className="w-full bg-[#007834] hover:bg-[#006329]"
         disabled={loading}
       >
-        {loading ? "Sending..." : "Send Reset Link"}
+        {loading ? t('auth.sending') : t('auth.send_reset_link')}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Remember your password?{" "}
+        {t('auth.remember_password')}{" "}
         <Button
           type="button"
           variant="link"
           onClick={onSwitchToSignIn}
           className="p-0 h-auto"
         >
-          Sign in
+          {t('auth.sign_in')}
         </Button>
       </p>
     </form>

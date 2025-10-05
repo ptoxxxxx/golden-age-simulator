@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import SignInForm from "@/components/auth/SignInForm";
@@ -9,6 +10,7 @@ import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
 type AuthMode = "sign-in" | "sign-up" | "reset";
 
 const Auth = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [mode, setMode] = useState<AuthMode>(
@@ -34,22 +36,22 @@ const Auth = () => {
   const getTitle = () => {
     switch (mode) {
       case "sign-up":
-        return "Create Account";
+        return t('auth.create_account');
       case "reset":
-        return "Reset Password";
+        return t('auth.reset_password');
       default:
-        return "Welcome Back";
+        return t('auth.welcome_back');
     }
   };
 
   const getDescription = () => {
     switch (mode) {
       case "sign-up":
-        return "Create an account to start your financial journey";
+        return t('auth.create_account_desc');
       case "reset":
-        return "Enter your email to receive a password reset link";
+        return t('auth.reset_password_desc');
       default:
-        return "Sign in to continue your financial journey";
+        return t('auth.sign_in_desc');
     }
   };
 

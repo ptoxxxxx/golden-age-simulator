@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ interface SignUpFormProps {
 }
 
 const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<SignUpFormData>({
     email: "",
@@ -50,8 +52,8 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
       if (error) {
         if (error.message.includes("already registered")) {
           toast({
-            title: "Account exists",
-            description: "This email is already registered. Please sign in instead.",
+            title: t('auth.account_exists'),
+            description: t('auth.email_registered'),
             variant: "destructive",
           });
         } else {
@@ -61,8 +63,8 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
       }
 
       toast({
-        title: "Account created!",
-        description: "Please check your email to verify your account",
+        title: t('auth.account_created'),
+        description: t('auth.verify_email'),
       });
 
       // Switch to sign in after successful registration
@@ -71,8 +73,8 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
       }, 2000);
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create account",
+        title: t('common.error'),
+        description: error.message || t('auth.create_account_error'),
         variant: "destructive",
       });
     } finally {
@@ -83,20 +85,20 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="signup-email">Email</Label>
+        <Label htmlFor="signup-email">{t('auth.email')}</Label>
         <Input
           id="signup-email"
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          placeholder="your@email.com"
+          placeholder={t('auth.email_placeholder')}
           disabled={loading}
         />
         {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="signup-password">Password</Label>
+        <Label htmlFor="signup-password">{t('auth.password')}</Label>
         <Input
           id="signup-password"
           type="password"
@@ -108,12 +110,12 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
         {errors.password ? (
           <p className="text-sm text-destructive">{errors.password}</p>
         ) : (
-          <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+          <p className="text-xs text-muted-foreground">{t('auth.password_hint')}</p>
         )}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirm-password">Confirm Password</Label>
+        <Label htmlFor="confirm-password">{t('auth.confirm_password')}</Label>
         <Input
           id="confirm-password"
           type="password"
@@ -132,18 +134,18 @@ const SignUpForm = ({ onSwitchToSignIn }: SignUpFormProps) => {
         className="w-full bg-[#007834] hover:bg-[#006329]"
         disabled={loading}
       >
-        {loading ? "Creating account..." : "Sign Up"}
+        {loading ? t('auth.creating_account') : t('auth.sign_up')}
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        {t('auth.have_account')}{" "}
         <Button
           type="button"
           variant="link"
           onClick={onSwitchToSignIn}
           className="p-0 h-auto"
         >
-          Sign in
+          {t('auth.sign_in')}
         </Button>
       </p>
     </form>

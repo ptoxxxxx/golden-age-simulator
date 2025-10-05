@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +12,7 @@ import { INITIAL_PLAYER_STATE, sanitizeFilename } from "@/lib/gameUtils";
 import { toast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [nickname, setNickname] = useState("");
@@ -34,7 +36,7 @@ const Index = () => {
       if (!validationResult.success) {
         const firstError = validationResult.error.errors[0];
         toast({
-          title: "Validation Error",
+          title: t('common.validation_error'),
           description: firstError.message,
           variant: "destructive",
         });
@@ -47,8 +49,8 @@ const Index = () => {
       
       if (!user) {
         toast({
-          title: "Authentication Required",
-          description: "Please sign in to start playing",
+          title: t('auth.authentication_required'),
+          description: t('auth.sign_in_to_play'),
           variant: "destructive",
         });
         navigate("/auth");
@@ -110,16 +112,16 @@ const Index = () => {
       if (stateError) throw stateError;
 
       toast({
-        title: "Game Started!",
-        description: "Welcome to Golden Age",
+        title: t('onboarding.game_started'),
+        description: t('onboarding.welcome'),
       });
 
       navigate("/game");
     } catch (error: any) {
       console.error("Error starting game:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to start game",
+        title: t('common.error'),
+        description: error.message || t('onboarding.start_game_error'),
         variant: "destructive",
       });
     } finally {
@@ -131,20 +133,20 @@ const Index = () => {
     <div className="min-h-screen flex items-center justify-center p-4 bg-[#F5F7FA]">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-3xl text-[#283754]">Welcome to Golden Age</CardTitle>
+          <CardTitle className="text-3xl text-[#283754]">{t('onboarding.welcome')}</CardTitle>
           <CardDescription>
-            Create your character and start your financial life journey
+            {t('onboarding.create_character')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleStartGame} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="nickname">Character Name (Optional)</Label>
+              <Label htmlFor="nickname">{t('onboarding.character_name')}</Label>
               <Input
                 id="nickname"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="Enter a name for your character"
+                placeholder={t('onboarding.character_name_placeholder')}
                 maxLength={50}
               />
             </div>
@@ -160,7 +162,7 @@ const Index = () => {
                 size="lg"
                 disabled={loading}
               >
-                {loading ? "Starting..." : "Start Your Journey"}
+                {loading ? t('onboarding.starting') : t('onboarding.start_journey')}
               </Button>
               <Button
                 type="button"
@@ -168,7 +170,7 @@ const Index = () => {
                 className="w-full"
                 onClick={() => navigate("/auth")}
               >
-                Sign In / Sign Up
+                {t('auth.sign_in_sign_up')}
               </Button>
             </div>
           </form>

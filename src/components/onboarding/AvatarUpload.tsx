@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,7 @@ interface AvatarUploadProps {
 }
 
 const AvatarUpload = ({ value, onChange, error }: AvatarUploadProps) => {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,8 +23,8 @@ const AvatarUpload = ({ value, onChange, error }: AvatarUploadProps) => {
     const validTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
     if (!validTypes.includes(file.type)) {
       toast({
-        title: "Invalid File Type",
-        description: "Please upload a JPG, PNG, or WebP image",
+        title: t('onboarding.invalid_file_type'),
+        description: t('onboarding.upload_image_type'),
         variant: "destructive",
       });
       return;
@@ -31,8 +33,8 @@ const AvatarUpload = ({ value, onChange, error }: AvatarUploadProps) => {
     // Validate file size (5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "File Too Large",
-        description: "Image must be less than 5MB",
+        title: t('onboarding.file_too_large'),
+        description: t('onboarding.max_file_size'),
         variant: "destructive",
       });
       return;
@@ -53,7 +55,7 @@ const AvatarUpload = ({ value, onChange, error }: AvatarUploadProps) => {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor="avatar">Character Avatar (Optional)</Label>
+      <Label htmlFor="avatar">{t('onboarding.avatar_label')}</Label>
       <div className="flex items-center gap-4">
         {preview ? (
           <div className="relative">

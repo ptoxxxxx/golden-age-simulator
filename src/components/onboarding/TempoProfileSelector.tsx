@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card } from "@/components/ui/card";
@@ -7,28 +8,30 @@ interface TempoProfileSelectorProps {
   onChange: (value: string) => void;
 }
 
-const profiles = [
-  {
-    id: "realistic",
-    name: "Realistic",
-    description: "Age 1 year per turn, realistic life progression",
-  },
-  {
-    id: "fast",
-    name: "Fast",
-    description: "Age 2-3 years per turn, quicker gameplay",
-  },
-  {
-    id: "custom",
-    name: "Custom",
-    description: "Configure your own tempo",
-  },
-];
-
 const TempoProfileSelector = ({ value, onChange }: TempoProfileSelectorProps) => {
+  const { t } = useTranslation();
+  
+  const profiles = [
+    {
+      id: "realistic",
+      name: t('onboarding.tempo_realistic'),
+      description: t('onboarding.tempo_realistic_desc'),
+    },
+    {
+      id: "fast",
+      name: t('onboarding.tempo_fast'),
+      description: t('onboarding.tempo_fast_desc'),
+    },
+    {
+      id: "custom",
+      name: t('onboarding.tempo_custom'),
+      description: t('onboarding.tempo_custom_desc'),
+    },
+  ];
+  
   return (
     <div className="space-y-3">
-      <Label>Game Tempo Profile</Label>
+      <Label>{t('onboarding.tempo_profile')}</Label>
       <RadioGroup value={value} onValueChange={onChange}>
         <div className="grid gap-3">
           {profiles.map((profile) => (

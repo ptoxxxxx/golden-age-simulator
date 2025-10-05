@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +14,7 @@ interface SignInFormProps {
 }
 
 const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<SignInFormData>({
@@ -49,8 +51,8 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
           toast({
-            title: "Sign In Failed",
-            description: "Invalid email or password",
+            title: t('auth.sign_in_failed'),
+            description: t('auth.invalid_credentials'),
             variant: "destructive",
           });
         } else {
@@ -60,15 +62,15 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
       }
 
       toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in",
+        title: t('auth.welcome_back'),
+        description: t('auth.sign_in_success'),
       });
 
       navigate("/");
     } catch (error: any) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to sign in",
+        title: t('common.error'),
+        description: error.message || t('auth.sign_in_error'),
         variant: "destructive",
       });
     } finally {
@@ -79,20 +81,20 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{t('auth.email')}</Label>
         <Input
           id="email"
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          placeholder="your@email.com"
+          placeholder={t('auth.email_placeholder')}
           disabled={loading}
         />
         {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password">{t('auth.password')}</Label>
         <Input
           id="password"
           type="password"
@@ -104,7 +106,7 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
         {errors.password ? (
           <p className="text-sm text-destructive">{errors.password}</p>
         ) : (
-          <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+          <p className="text-xs text-muted-foreground">{t('auth.password_hint')}</p>
         )}
       </div>
 
@@ -113,7 +115,7 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
         className="w-full bg-[#007834] hover:bg-[#006329]"
         disabled={loading}
       >
-        {loading ? "Signing in..." : "Sign In"}
+        {loading ? t('auth.signing_in') : t('auth.sign_in')}
       </Button>
 
       <div className="text-center space-y-2">
@@ -123,17 +125,17 @@ const SignInForm = ({ onSwitchToSignUp, onSwitchToReset }: SignInFormProps) => {
           onClick={onSwitchToReset}
           className="text-sm"
         >
-          Forgot password?
+          {t('auth.forgot_password')}
         </Button>
         <p className="text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          {t('auth.no_account')}{" "}
           <Button
             type="button"
             variant="link"
             onClick={onSwitchToSignUp}
             className="p-0 h-auto"
           >
-            Sign up
+            {t('auth.sign_up')}
           </Button>
         </p>
       </div>

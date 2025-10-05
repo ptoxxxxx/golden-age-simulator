@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,8 @@ interface ScenarioCardProps {
 }
 
 const ScenarioCard = ({ scenario, options, onSelectOption, disabled }: ScenarioCardProps) => {
+  const { t } = useTranslation();
+  
   return (
     <Card className="animate-fade-in">
       <CardHeader>
@@ -29,14 +32,14 @@ const ScenarioCard = ({ scenario, options, onSelectOption, disabled }: ScenarioC
             {scenario.area}
           </Badge>
         )}
-        <CardTitle className="text-2xl text-[#283754]">Life Decision</CardTitle>
+        <CardTitle className="text-2xl text-[#283754]">{t('game.life_decision')}</CardTitle>
         <CardDescription className="text-base mt-4">
           {scenario.story_prompt}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <p className="text-sm font-medium text-muted-foreground mb-2">What will you do?</p>
+          <p className="text-sm font-medium text-muted-foreground mb-2">{t('game.what_will_you_do')}</p>
           {options.map((option) => (
             <Button
               key={option.id}

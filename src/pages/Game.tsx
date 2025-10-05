@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -10,6 +11,7 @@ import { applyEffects, calculateAgeIncrement, isGameOver } from "@/lib/gameUtils
 import { ArrowRight, BarChart3 } from "lucide-react";
 
 const Game = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -48,8 +50,8 @@ const Game = () => {
 
       if (!game) {
         toast({
-          title: "No active game",
-          description: "Please start a new game",
+          title: t('game.no_active_game'),
+          description: t('game.start_new_game'),
         });
         navigate("/");
         return;
@@ -120,8 +122,8 @@ const Game = () => {
 
       if (!scenarios || scenarios.length === 0) {
         toast({
-          title: "No scenarios available",
-          description: "Proceeding to summary",
+          title: t('game.no_scenarios'),
+          description: t('game.proceeding_summary'),
         });
         navigate("/summary");
         return;
@@ -134,8 +136,8 @@ const Game = () => {
     } catch (error: any) {
       console.error("Error loading scenario:", error);
       toast({
-        title: "Error",
-        description: "Failed to load scenario",
+        title: t('common.error'),
+        description: t('game.load_scenario_error'),
         variant: "destructive",
       });
     }
@@ -164,8 +166,8 @@ const Game = () => {
     } catch (error: any) {
       console.error("Error saving choice:", error);
       toast({
-        title: "Error",
-        description: "Failed to save choice",
+        title: t('common.error'),
+        description: t('game.save_choice_error'),
         variant: "destructive",
       });
     } finally {
@@ -232,8 +234,8 @@ const Game = () => {
     } catch (error: any) {
       console.error("Error advancing turn:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to advance turn",
+        title: t('common.error'),
+        description: error.message || t('game.advance_turn_error'),
         variant: "destructive",
       });
     } finally {
@@ -244,7 +246,7 @@ const Game = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA]">
-        <p className="text-muted-foreground">Loading game...</p>
+        <p className="text-muted-foreground">{t('common.loading')}</p>
       </div>
     );
   }
@@ -252,7 +254,7 @@ const Game = () => {
   if (!currentState || !scenario) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA]">
-        <p className="text-muted-foreground">No game data available</p>
+        <p className="text-muted-foreground">{t('game.no_data')}</p>
       </div>
     );
   }
@@ -261,14 +263,14 @@ const Game = () => {
     <div className="min-h-screen bg-[#F5F7FA] py-8">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-[#283754]">Your Life Journey</h1>
+          <h1 className="text-3xl font-bold text-[#283754]">{t('game.title')}</h1>
           <Button
             variant="outline"
             onClick={() => navigate("/dashboard")}
             className="gap-2"
           >
             <BarChart3 className="h-4 w-4" />
-            Dashboard
+            {t('dashboard.title')}
           </Button>
         </div>
 
@@ -306,7 +308,7 @@ const Game = () => {
                   size="lg"
                   className="bg-[#007834] hover:bg-[#006329] gap-2"
                 >
-                  {processing ? "Processing..." : "Next Turn"}
+                  {processing ? t('game.processing') : t('game.next_turn')}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>

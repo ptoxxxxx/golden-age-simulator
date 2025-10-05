@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +10,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { ArrowLeft, TrendingUp, DollarSign } from "lucide-react";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [gameData, setGameData] = useState<any>(null);
@@ -40,8 +42,8 @@ const Dashboard = () => {
 
       if (!game) {
         toast({
-          title: "No game found",
-          description: "Please start a new game",
+          title: t('dashboard.no_game'),
+          description: t('dashboard.start_new_game'),
         });
         navigate("/");
         return;
@@ -75,8 +77,8 @@ const Dashboard = () => {
     } catch (error: any) {
       console.error("Error loading dashboard:", error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to load dashboard",
+        title: t('common.error'),
+        description: error.message || t('dashboard.load_error'),
         variant: "destructive",
       });
     } finally {
@@ -95,7 +97,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F7FA]">
-        <p className="text-muted-foreground">Loading dashboard...</p>
+        <p className="text-muted-foreground">{t('common.loading')}</p>
       </div>
     );
   }
@@ -122,8 +124,8 @@ const Dashboard = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-[#283754]">Dashboard</h1>
-            <p className="text-muted-foreground">Track your life journey</p>
+            <h1 className="text-3xl font-bold text-[#283754]">{t('dashboard.title')}</h1>
+            <p className="text-muted-foreground">{t('dashboard.description')}</p>
           </div>
           <Button
             variant="outline"
@@ -131,14 +133,14 @@ const Dashboard = () => {
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            {gameData?.status === "active" ? "Back to Game" : "View Summary"}
+            {gameData?.status === "active" ? t('dashboard.back_to_game') : t('dashboard.view_summary')}
           </Button>
         </div>
 
         <Tabs defaultValue="charts" className="space-y-6">
           <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="charts">Charts</TabsTrigger>
-            <TabsTrigger value="timeline">Timeline</TabsTrigger>
+            <TabsTrigger value="charts">{t('dashboard.charts')}</TabsTrigger>
+            <TabsTrigger value="timeline">{t('dashboard.timeline')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="charts" className="space-y-6">
@@ -147,9 +149,9 @@ const Dashboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-[#007834]" />
-                  Financial Progress
+                  {t('dashboard.financial_progress')}
                 </CardTitle>
-                <CardDescription>Track your wealth over time</CardDescription>
+                <CardDescription>{t('dashboard.track_wealth')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -173,9 +175,9 @@ const Dashboard = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-[#007834]" />
-                  Wellbeing Progress
+                  {t('dashboard.wellbeing_progress')}
                 </CardTitle>
-                <CardDescription>Track your health, happiness, and relationships</CardDescription>
+                <CardDescription>{t('dashboard.track_wellbeing')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -197,12 +199,12 @@ const Dashboard = () => {
           <TabsContent value="timeline" className="space-y-4">
             <Card className="animate-fade-in">
               <CardHeader>
-                <CardTitle>Decision Timeline</CardTitle>
-                <CardDescription>Review the choices you made throughout your journey</CardDescription>
+                <CardTitle>{t('dashboard.decision_timeline')}</CardTitle>
+                <CardDescription>{t('dashboard.review_choices')}</CardDescription>
               </CardHeader>
               <CardContent>
                 {choices.length === 0 ? (
-                  <p className="text-center text-muted-foreground py-8">No decisions made yet</p>
+                  <p className="text-center text-muted-foreground py-8">{t('dashboard.no_decisions')}</p>
                 ) : (
                   <div className="space-y-4">
                     {choices.map((choice, index) => (
