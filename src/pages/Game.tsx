@@ -27,6 +27,7 @@ const Game = () => {
   const [confirmedOption, setConfirmedOption] = useState<any>(null);
   const [coachComment, setCoachComment] = useState<string | null>(null);
   const [coachDialogOpen, setCoachDialogOpen] = useState(false);
+  const [pendingAdvanceOption, setPendingAdvanceOption] = useState<any>(null);
   const [advisoryEffects, setAdvisoryEffects] = useState<Record<string, number>>({});
   const [advisoryDialogOpen, setAdvisoryDialogOpen] = useState(false);
   const [tempoProfile, setTempoProfile] = useState<string>("realistic");
@@ -207,11 +208,6 @@ const Game = () => {
         ? option.ai_coach_comment_pl 
         : option.ai_coach_comment;
       setCoachComment(displayComment);
-      
-      // Show coach dialog only if enabled
-      if (showCoachComments) {
-        setCoachDialogOpen(true);
-      }
 
       // Save player choice
       await supabase.from("player_choices").insert({
@@ -222,9 +218,15 @@ const Game = () => {
         option_id: selectedOptionId,
         effects: option.effects,
       });
-
-      // Immediately advance to next turn
-      await advanceToNextTurn(option);
+      
+      // Show coach dialog only if enabled
+      if (showCoachComments) {
+        setCoachDialogOpen(true);
+        setPendingAdvanceOption(option); // Save option for later
+      } else {
+        // If coach comments disabled, advance immediately
+        await advanceToNextTurn(option);
+      }
     } catch (error: any) {
       console.error("Error saving choice:", error);
       toast({
@@ -412,7 +414,14 @@ const Game = () => {
           <CoachComment 
             comment={coachComment} 
             open={coachDialogOpen}
-            onOpenChange={setCoachDialogOpen}
+            onOpenChange={async (open) => {
+              setCoachDialogOpen(open);
+              // When dialog closes, advance to next turn
+              if (!open && pendingAdvanceOption) {
+                await advanceToNextTurn(pendingAdvanceOption);
+                setPendingAdvanceOption(null);
+              }
+            }}
           />
         )}
       </div>
